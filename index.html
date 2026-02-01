@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programa de Eventos - Com4ºDN</title>
+    <!-- Favicon -->
+    <link rel="icon" href="https://www.marinha.mil.br/com4dn/sites/www.marinha.mil.br.com4dn/files/Com4%C2%BAdis%20EDITADO.png" type="image/jpeg">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* Personalização de Fontes e Cores Específicas */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* background-color removido para permitir a imagem de fundo */
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Configuração da Imagem de Fundo com Transparência */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://drive.google.com/file/d/1yJSxumYzEPTE1fsMlgvH2-OwdUTlHMOr/view?usp=sharing');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.4; /* 60% de transparência (40% visível) */
+            z-index: -1; /* Fica atrás de todo o conteúdo */
+        }
+
+        .navy-bg { background-color: #0c1c38; } /* Azul Marinha */
+        .navy-text { color: #0c1c38; }
+        
+        /* Estilo da Linha do Tempo Vermelha */
+        .current-time-line {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            position: relative;
+            z-index: 10;
+        }
+        .current-time-line::before {
+            content: '';
+            flex-grow: 1;
+            height: 2px;
+            background: #ef4444; /* Vermelho */
+        }
+        .current-time-dot {
+            width: 12px;
+            height: 12px;
+            background: #ef4444;
+            border-radius: 50%;
+            margin-right: 10px;
+            box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.2);
+        }
+        .current-time-label {
+            color: #ef4444;
+            font-weight: bold;
+            font-size: 0.8rem;
+            margin-left: 5px;
+        }
+
+        /* Animação suave para as abas */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Estilos do Modal */
+        .modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content {
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+        .modal.open .modal-content {
+            transform: scale(1);
+        }
+    </style>
+</head>
+<body class="pb-16">
+
+    <header class="navy-bg text-white p-4 shadow-md sticky top-0 z-50">
+        <div class="flex justify-between items-center mb-4">
+            <div>
+                <h1 class="text-sm font-light opacity-80 uppercase tracking-wider">Comando do 4º Distrito Naval</h1>
+                <h2 class="text-lg font-bold">Visita VA(RM1) Lima Filho</h2>
+            </div>
+            <i class="fas fa-anchor text-2xl opacity-50"></i>
+        </div>
+
+        <!-- Botões de Acesso Rápido - Layout Grid 2x2 -->
+        <div class="grid grid-cols-2 gap-2 mb-4">
+            <!-- 1. Autoridades -->
+            <button onclick="openModal('info_autoridades')" class="bg-blue-800 hover:bg-blue-700 text-white py-2 px-1 rounded-lg flex flex-col items-center justify-center text-xs transition shadow-sm border border-blue-700">
+                <i class="fas fa-id-card mb-1 text-lg"></i>
+                <span>Autoridades</span>
+            </button>
+
+            <!-- 2. Uniformes -->
+            <button onclick="openModal('uniformes')" class="bg-blue-800 hover:bg-blue-700 text-white py-2 px-1 rounded-lg flex flex-col items-center justify-center text-xs transition shadow-sm border border-blue-700">
+                <i class="fas fa-tshirt mb-1 text-lg"></i>
+                <span>Uniformes</span>
+            </button>
+
+            <!-- 3. Motoristas -->
+            <button onclick="openModal('motoristas')" class="bg-blue-800 hover:bg-blue-700 text-white py-2 px-1 rounded-lg flex flex-col items-center justify-center text-xs transition shadow-sm border border-blue-700">
+                <i class="fas fa-car mb-1 text-lg"></i>
+                <span>Motoristas</span>
+            </button>
+
+            <!-- 4. Telefones Úteis -->
+            <button onclick="openModal('telefones')" class="bg-blue-800 hover:bg-blue-700 text-white py-2 px-1 rounded-lg flex flex-col items-center justify-center text-xs transition shadow-sm border border-blue-700">
+                <i class="fas fa-phone mb-1 text-lg"></i>
+                <span>Tel. Úteis</span>
+            </button>
+        </div>
+        
+        <div class="flex space-x-2 overflow-x-auto pb-1" id="tab-container">
+            <!-- Tabs injected by JS -->
+        </div>
+    </header>
+
+    <main class="p-4 max-w-md mx-auto" id="events-container">
+        <!-- Events injected by JS -->
+    </main>
+
+    <footer class="text-center text-gray-400 text-xs py-6">
+        <p>Atualizado em 30 JAN 2026</p>
+    </footer>
+
+    <!-- MODAL COMPONENT -->
+    <div id="info-modal" class="modal fixed inset-0 z-[60] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <!-- Background backdrop -->
+        <div class="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity" onclick="closeModal()"></div>
+
+        <div class="fixed inset-0 z-10 overflow-y-auto">
+            <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                <div class="modal-content relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg w-full">
+                    
+                    <!-- Header do Modal -->
+                    <div class="bg-blue-900 px-4 py-3 sm:px-6 flex justify-between items-center">
+                        <h3 class="text-base font-semibold leading-6 text-white" id="modal-title">Título</h3>
+                        <button onclick="closeModal()" class="text-white hover:text-gray-300 focus:outline-none">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+
+                    <!-- Corpo do Modal -->
+                    <div class="px-4 py-5 sm:p-6 max-h-[70vh] overflow-y-auto bg-gray-50" id="modal-body">
+                        <!-- Conteúdo injetado via JS -->
+                    </div>
+                    
+                    <!-- Footer do Modal -->
+                    <div class="bg-gray-100 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                        <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" onclick="closeModal()">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- DADOS DO EVENTO ---
+        const scheduleData = [
+            {
+                id: "day1",
+                label: "DOM 01/FEV",
+                date: "2026-02-01",
+                events: [
+                    { time: "23:35", title: "Recepção ao VA Lima Filho", location: "Aeroporto Int. de Belém", uniform: "OP3", obs: "Voo LATAM 3706", participants: "DN-01, DN-01.1, DN-02 e DN-02.1" },
+                    { time: "23:45", title: "Deslocamento para a residência", location: "-", uniform: "OP3", obs: "", participants: "Comitiva Principal" }
+                ]
+            },
+            {
+                id: "day2",
+                label: "SEG 02/FEV",
+                date: "2026-02-02",
+                events: [
+                    { time: "08:00", title: "Café da Manhã", location: "Residência Funcional Com4ºDN", uniform: "Esporte", obs: "", participants: "DN-01, VA Lima Filho, DN-02, CC Vanessa" },
+                    { time: "09:00", title: "Deslocamento para o CHN-4", location: "-", uniform: "OP3", obs: "", participants: "Comitiva e CHN4-01" },
+                    { time: "10:00", title: "Apresentação Com4ºDN e CHN4-01", location: "CHN4", uniform: "OP3", obs: "Até 12:00", participants: "Comitiva, CHN4-01" },
+                    { time: "12:00", title: "Almoço", location: "Residência Funcional Com4ºDN", uniform: "OP3", obs: "Até 14:00", participants: "Comitiva Principal" },
+                    { time: "14:30", title: "Deslocamento para CDP", location: "-", uniform: "OP3", obs: "", participants: "Comitiva Principal" },
+                    { time: "15:00", title: "Visita à Cia Docas do Pará (CDP)", location: "Companhia Docas do Pará", uniform: "OP3", obs: "", participants: "Comitiva e CPAOR-01" }
+                ]
+            },
+            {
+                id: "day3",
+                label: "TER 03/FEV",
+                date: "2026-02-03",
+                events: [
+                    { time: "08:00", title: "Café da Manhã", location: "Residência Funcional Com4ºDN", uniform: "Esporte", obs: "", participants: "DN-01, VA Lima Filho, DN-02, CC Vanessa" },
+                    { time: "09:00", title: "Deslocamento para o CIABA", location: "-", uniform: "5.5", obs: "", participants: "Comitiva Principal" },
+                    { time: "09:30", title: "Visita às Instalações do CIABA", location: "Simuladores do CIABA", uniform: "5.5", obs: "", participants: "Comitiva e CIABA-01" },
+                    { time: "10:50", title: "Aula Inaugural (VA Lima Filho)", location: "Auditório do CIABA", uniform: "5.5", obs: "Até 11:50", participants: "Todos" },
+                    { time: "12:00", title: "Almoço", location: "CIABA", uniform: "5.5", obs: "Até 14:00", participants: "Comitiva e CIABA-01" },
+                    { time: "14:00", title: "Deslocamento para residência", location: "-", uniform: "5.5", obs: "", participants: "Comitiva Principal" },
+                    { time: "15:30", title: "Deslocamento para Aeroporto", location: "Aeroporto Int. de Belém", uniform: "OP3", obs: "", participants: "Comitiva Principal" },
+                    { time: "17:10", title: "Regresso (Voo LATAM 3212)", location: "Aeroporto Int. de Belém", uniform: "OP3", obs: "", participants: "DN-01, DN-02..." }
+                ]
+            }
+        ];
+
+        // --- DADOS DE LOGÍSTICA ---
+        const logisticsData = {
+            autoridades: [
+                {
+                    nome: "V Alte BATISTA",
+                    cargo: "Comandante do 4º DN",
+                    hospedagem: "Residência Funcional",
+                    vtr: "01 - Toyota Corolla (RWY-6C87)",
+                    motorista: "SO-MG COELHO",
+                    tel_motorista: "(21) 99777-7668",
+                    assistente: "CT CURA",
+                    tel_assistente: "(91) 98125-0005"
+                },
+                {
+                    nome: "V Alte (RM1) LIMA FILHO",
+                    cargo: "Autoridade Visitante",
+                    hospedagem: "Residência do Com4ºDN (Suíte)",
+                    vtr: "02 - Toyota Corolla (RWY-6D17)",
+                    motorista: "2° SG-MA GOULART",
+                    tel_motorista: "(21) 97339-0076",
+                    assistente: "-",
+                    tel_assistente: "-"
+                },
+                {
+                    nome: "C Alte JOSÉ FÁBIO",
+                    cargo: "Chefe do Estado-Maior",
+                    hospedagem: "Residência Própria",
+                    vtr: "03 - Toyota Corolla (SZF-4C02)",
+                    motorista: "1° SG-CP RAFAEL",
+                    tel_motorista: "(91) 98239-3991",
+                    assistente: "1T (AA) RENATO MENDES",
+                    tel_assistente: "(91) 98266-0275"
+                },
+                {
+                    nome: "CC (T) VANESSA FIGHERA",
+                    cargo: "Comitiva",
+                    hospedagem: "HT Vila Naval Espadarte (Suíte 02)",
+                    vtr: "Acompanha Comitiva",
+                    motorista: "-",
+                    tel_motorista: "-",
+                    assistente: "-",
+                    tel_assistente: "-"
+                }
+            ],
+            uniformes: [
+                { 
+                    title: "5.5", 
+                    desc: "Uniforme de Serviço de Verão", 
+                    icon: "fa-user-tie", 
+                    details: "Calça e camisa branca, sapatos brancos.",
+                    image: "https://metaartigos.com.br/assets/images/branco-5-5-marinha-518x518.jpg"
+                },
+                { 
+                    title: "OP3", 
+                    desc: "Uniforme Operativo 3", 
+                    icon: "fa-vest", 
+                    details: "Gandola e calça azul-ferrete (ou camuflada), coturnos. <strong>Boné Azul de Viagem</strong>",
+                    image: "https://7maresbrasil.com.br/wp-content/uploads/2024/02/OP3-0.jpg"
+                },
+                { 
+                    title: "Esporte", 
+                    desc: "Esporte Amazônico", 
+                    icon: "fa-tshirt", 
+                    details: "Calça, camisa Polo e sapatênis",
+                    image: "https://aramis-wp.s3.us-west-2.amazonaws.com/2025/07/homem-polo-branca-calca-escura-683x1024.jpg" 
+                }
+            ],
+            motoristas: [
+                { vtr: "01", auth: "V Alte BATISTA", model: "TOYOTA COROLLA", plate: "RWY-6C87", driver: "SO-MG COELHO", phone: "(21) 99777-7668" },
+                { vtr: "02", auth: "V Alte (RM1) LIMA FILHO", model: "TOYOTA COROLLA", plate: "RWY-6D17", driver: "2° SG-MA GOULART", phone: "(21) 97339-0076" },
+                { vtr: "03", auth: "C Alte JOSÉ FÁBIO", model: "TOYOTA COROLLA", plate: "SZF-4C02", driver: "1° SG-CP RAFAEL", phone: "(91) 98239-3991" }
+            ],
+            telefones: [
+                // GRUPO PRINCIPAL: Com4ºDN
+                { superHeader: "Com4ºDN" },
+                
+                // Subgrupo: Almirantes
+                { header: "Almirantes" },
+                { name: "V Alte BATISTA", phone: "(91) 98266-0201", role: "Com4ºDN" },
+                { name: "C Alte JOSÉ FABIO", phone: "(91) 98266-0233", role: "CEM-Com4ºDN" },
+                
+                // Subgrupo: Assistentes/AjOrd
+                { header: "Assistentes/AjOrd" },
+                { name: "CT CURA", phone: "(91) 98125-0005", role: "Assistente Com4ºDN" },
+                { name: "CT (AA) FRANCO", phone: "(91) 98266-0283", role: "Ajudante de Ordens Com4ºDN" },
+                { name: "1T (AA) RENATO MENDES", phone: "(91) 98266-0275", role: "Assistente CEM" },
+                
+                // Subgrupo: Oficiais de Serviço
+                { header: "Oficiais de Serviço COM4ºDN" },
+                { name: "OSP - Com4ºDN", phone: "(91) 98266-0154", role: "-" },
+                { name: "OSE - Com4ºDN", phone: "(91) 98266-0328", role: "-" },
+                
+                // GRUPO PRINCIPAL: Titulares de OM
+                { superHeader: "Titulares de OM" },
+                { name: "CMG (Md) JAIME", phone: "(91) 99185-4663", role: "HNBe" },
+                { name: "CMG (IM) HERMES", phone: "(91) 98266-0282", role: "CeIMBe" },
+                { name: "CMG ROVERE", phone: "(91) 98266-0312", role: "CIABA" },
+                { name: "CMG DANIEL JUNIOR", phone: "(91) 99349-1643", role: "BNVC" },
+                { name: "CMG BARROS", phone: "(91) 98125-5555", role: "ComGptPatNavN" },
+                { name: "CMG PIMENTEL", phone: "(91) 98266-0009", role: "CPAOR" },
+                { name: "CF ANSELMO", phone: "(91) 98266-0158", role: "CHN-4" },
+                { name: "CF (FN) TEIXEIRA", phone: "(91) 98266-0123", role: "2ºBtlOpRib" }
+            ]
+        };
+
+        // --- HELPER PARA LINKS DO MAPA ---
+        function getMapLink(locationName) {
+            if (!locationName || locationName === '-') return '#';
+            
+            // Endereço específico para Residência Funcional
+            if (locationName.includes("Residência Funcional")) {
+                return "https://www.google.com/maps/search/?api=1&query=Rua+Almirante+Dantas+Torres,+n°8.+Bairro+Val-de-Cães";
+            }
+            
+            // Para outros locais, busca genérica no Google Maps + Belém para precisão
+            const query = encodeURIComponent(locationName + " Belém Pará");
+            return `https://www.google.com/maps/search/?api=1&query=${query}`;
+        }
+
+        // --- HELPER PARA LINKS DE VOO ---
+        function linkifyFlight(text) {
+            if (!text) return text;
+            
+            return text.replace(/(?:Voo\s+)?LATAM\s+(\d+)/gi, (match, number) => {
+                let icon = 'fa-plane';
+                return `<a href="https://www.flightradar24.com/data/flights/la${number}" target="_blank" class="text-blue-600 hover:text-blue-800 hover:underline font-bold inline-flex items-center gap-1" title="Rastrear no FlightRadar24">
+                    ${match} <i class="fas ${icon} text-xs"></i>
+                </a>`;
+            });
+        }
+
+        // --- HELPER PARA WHATSAPP ---
+        function getWhatsAppLink(phone) {
+            if (!phone || phone === '-') return '#';
+            // Remove tudo que não for dígito e adiciona 55 (Brasil)
+            const cleanNumber = phone.replace(/\D/g, '');
+            return `https://wa.me/55${cleanNumber}`;
+        }
+
+        // --- LÓGICA DE MODAL ---
+        const modal = document.getElementById('info-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalBody = document.getElementById('modal-body');
+
+        function openModal(type) {
+            let title = "";
+            let content = "";
+
+            if (type === 'uniformes') {
+                title = "Uniformes Previstos";
+                content = `<div class="space-y-6">`;
+                logisticsData.uniformes.forEach(u => {
+                    content += `
+                        <div class="bg-white p-4 rounded-lg shadow-md border border-gray-200">
+                            <div class="flex items-center mb-3 border-b border-gray-100 pb-2">
+                                <div class="bg-blue-100 p-2 rounded-full mr-3 text-blue-900">
+                                    <i class="fas ${u.icon} text-lg w-6 text-center"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-blue-900 text-lg leading-none">${u.title}</h4>
+                                    <p class="text-xs text-gray-500 uppercase tracking-wide">${u.desc}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="relative w-full h-64 bg-gray-100 rounded-lg overflow-hidden mb-3 border border-gray-100 group">
+                                <img src="${u.image}" alt="${u.title}" class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105">
+                            </div>
+
+                            <p class="text-sm text-gray-600 bg-gray-50 p-2 rounded border-l-4 border-blue-900">
+                                <i class="fas fa-info-circle text-blue-900 mr-1"></i> ${u.details}
+                            </p>
+                        </div>`;
+                });
+                content += `</div>`;
+            } 
+            else if (type === 'motoristas') {
+                title = "Controle de Viaturas";
+                content = `<div class="space-y-4">`;
+                logisticsData.motoristas.forEach(m => {
+                    content += `
+                        <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-blue-900">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-xs font-bold bg-blue-100 text-blue-800 px-2 py-1 rounded">VTR ${m.vtr}</span>
+                            </div>
+                            <h4 class="font-bold text-gray-800 text-sm mb-1">${m.auth}</h4>
+                            <p class="text-xs text-gray-600 mb-2">
+                                <i class="fas fa-car mr-1"></i> ${m.model} - <span class="font-bold text-gray-700">${m.plate}</span>
+                            </p>
+                            <div class="border-t border-gray-100 pt-2 mt-2">
+                                <p class="text-xs font-bold text-gray-700 flex items-center">
+                                    <svg class="w-4 h-4 mr-2 text-gray-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4C14.07,4 16,4.81 17.45,6.13L13.19,10.4L15.31,12.5L19.57,8.25C20.47,9.33 21,10.63 21,12C21,16.97 16.97,21 12,21C7.03,21 3,16.97 3,12C3,10.63 3.53,9.33 4.43,8.25L8.69,12.5L10.81,10.4L6.55,6.13C8,4.81 9.93,4 12,4Z" /></svg>
+                                    Motorista: ${m.driver}
+                                </p>
+                                <a href="tel:${m.phone.replace(/[^0-9]/g, '')}" class="inline-flex items-center mt-1 text-sm font-bold text-green-600 hover:text-green-800 ml-5">
+                                    <i class="fas fa-phone-alt mr-2"></i> ${m.phone}
+                                </a>
+                            </div>
+                        </div>`;
+                });
+                content += `</div>`;
+            }
+            else if (type === 'telefones') {
+                title = "Telefones Úteis";
+                // Removido divide-y para ter controle total sobre as bordas dos grupos
+                content = `<div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">`;
+                logisticsData.telefones.forEach(t => {
+                    // Check for SUPER HEADER Item (Grupos Principais)
+                    if (t.superHeader) {
+                        content += `
+                            <div class="bg-blue-900 p-3 border-b border-blue-800">
+                                <h4 class="font-bold text-white text-sm uppercase tracking-wider text-center">${t.superHeader}</h4>
+                            </div>
+                        `;
+                        return;
+                    }
+
+                    // Check for Header Item (Subgrupos)
+                    if (t.header) {
+                        content += `
+                            <div class="bg-gray-100 p-2 border-b border-gray-200 border-t border-gray-200">
+                                <h5 class="font-bold text-blue-900 text-xs uppercase tracking-wider pl-2">${t.header}</h5>
+                            </div>
+                        `;
+                        return; // Skip normal rendering for header
+                    }
+
+                    const isPhone = t.phone !== '-';
+                    const waLink = getWhatsAppLink(t.phone);
+                    
+                    content += `
+                        <div class="p-4 flex justify-between items-center hover:bg-gray-50 transition border-b border-gray-100 last:border-0">
+                            <div>
+                                <h4 class="font-bold text-gray-800 text-sm">${t.name}</h4>
+                                <p class="text-xs text-gray-500">${t.role}</p>
+                            </div>
+                            <div class="flex space-x-2">
+                                ${isPhone ? 
+                                    `<a href="tel:${t.phone.replace(/[^0-9]/g, '')}" class="bg-green-100 text-green-700 p-2 rounded-full hover:bg-green-200 transition" title="Ligar">
+                                        <i class="fas fa-phone w-4 h-4 flex items-center justify-center"></i>
+                                    </a>
+                                    <a href="${waLink}" target="_blank" class="bg-green-500 text-white p-2 rounded-full hover:bg-green-600 transition shadow-sm" title="WhatsApp">
+                                        <i class="fab fa-whatsapp w-4 h-4 flex items-center justify-center text-lg"></i>
+                                    </a>` 
+                                    : 
+                                    `<span class="text-gray-300"><i class="fas fa-phone-slash"></i></span>`
+                                }
+                            </div>
+                        </div>`;
+                });
+                content += `</div>`;
+            }
+            else if (type === 'info_autoridades') {
+                title = "Informações das Autoridades";
+                content = `<div class="space-y-6">`;
+                logisticsData.autoridades.forEach(auth => {
+                    const hasMotorista = auth.motorista !== '-';
+                    const hasAssistente = auth.assistente !== '-';
+                    
+                    content += `
+                    <div class="bg-white rounded-lg shadow-md border-t-4 border-blue-900 overflow-hidden">
+                        <div class="bg-gray-50 p-3 border-b border-gray-100">
+                            <h4 class="font-bold text-blue-900 text-lg">${auth.nome}</h4>
+                            <p class="text-xs text-gray-500 font-semibold uppercase tracking-wider">${auth.cargo}</p>
+                        </div>
+                        <div class="p-4 space-y-3">
+                            <!-- Hospedagem -->
+                            <div class="flex items-start">
+                                <div class="w-8 flex-shrink-0 text-center text-gray-400">
+                                    <i class="fas fa-bed"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-400 uppercase font-bold">Hospedagem</p>
+                                    <p class="text-sm font-medium text-gray-800">${auth.hospedagem}</p>
+                                </div>
+                            </div>
+
+                            <!-- Viatura -->
+                            <div class="flex items-start">
+                                <div class="w-8 flex-shrink-0 text-center text-gray-400">
+                                    <i class="fas fa-car"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-400 uppercase font-bold">Viatura</p>
+                                    <p class="text-sm font-medium text-gray-800">${auth.vtr}</p>
+                                </div>
+                            </div>
+
+                            <!-- Motorista -->
+                            ${hasMotorista ? `
+                            <div class="flex items-start">
+                                <div class="w-8 flex-shrink-0 text-center text-gray-400">
+                                    <i class="fas fa-dharmachakra"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-400 uppercase font-bold">Motorista</p>
+                                    <div class="flex flex-wrap gap-x-2 items-center">
+                                        <p class="text-sm font-medium text-gray-800">${auth.motorista}</p>
+                                        <a href="tel:${auth.tel_motorista.replace(/[^0-9]/g, '')}" class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold hover:bg-green-200">
+                                            <i class="fas fa-phone-alt mr-1"></i> ${auth.tel_motorista}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>` : ''}
+
+                            <!-- Assistente -->
+                            ${hasAssistente ? `
+                            <div class="flex items-start">
+                                <div class="w-8 flex-shrink-0 text-center text-gray-400">
+                                    <i class="fas fa-user-shield"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-400 uppercase font-bold">Assistente</p>
+                                    <div class="flex flex-wrap gap-x-2 items-center">
+                                        <p class="text-sm font-medium text-gray-800">${auth.assistente}</p>
+                                        <a href="tel:${auth.tel_assistente.replace(/[^0-9]/g, '')}" class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold hover:bg-green-200">
+                                            <i class="fas fa-phone-alt mr-1"></i> ${auth.tel_assistente}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>` : ''}
+                        </div>
+                    </div>`;
+                });
+                content += `</div>`;
+            }
+
+            modalTitle.innerText = title;
+            modalBody.innerHTML = content;
+            modal.classList.remove('hidden');
+            setTimeout(() => modal.classList.add('open'), 10);
+        }
+
+        function closeModal() {
+            modal.classList.remove('open');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+
+        // --- LÓGICA DE RENDERIZAÇÃO PRINCIPAL ---
+
+        const tabContainer = document.getElementById('tab-container');
+        const eventsContainer = document.getElementById('events-container');
+
+        // Função auxiliar para criar badges de uniforme
+        function getUniformBadge(uniform) {
+            let colorClass = "bg-gray-200 text-gray-800"; // Padrão
+            if (uniform.includes("OP3")) colorClass = "bg-blue-100 text-blue-800 border border-blue-200";
+            if (uniform.includes("5.5")) colorClass = "bg-indigo-100 text-indigo-800 border border-indigo-200";
+            return `<span class="px-2 py-0.5 rounded text-xs font-bold ${colorClass}">${uniform}</span>`;
+        }
+
+        // 1. Renderizar Abas e Conteúdo
+        function initApp() {
+            // Verificar a data atual para abrir a aba correta
+            const dateObj = new Date();
+            const year = dateObj.getFullYear();
+            const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+            const dayStr = String(dateObj.getDate()).padStart(2, '0');
+            const today = `${year}-${month}-${dayStr}`;
+
+            let activeDayIndex = scheduleData.findIndex(d => d.date === today);
+            
+            // Se hoje não for dia de evento, abre o primeiro dia
+            if (activeDayIndex === -1) activeDayIndex = 0; 
+            
+            // --- MODO DE TESTE (Descomente para simular o dia 02 FEV) ---
+            // activeDayIndex = 1; 
+
+            scheduleData.forEach((day, index) => {
+                // Criar Aba
+                const isActive = index === activeDayIndex;
+                const btnClass = isActive ? 'bg-white text-blue-900 font-bold shadow' : 'bg-blue-900 text-blue-200 hover:bg-blue-800';
+                
+                const btn = document.createElement('button');
+                btn.className = `flex-1 py-2 px-4 rounded-lg text-sm transition-all whitespace-nowrap ${btnClass}`;
+                btn.innerText = day.label;
+                btn.onclick = () => switchTab(index);
+                tabContainer.appendChild(btn);
+
+                // Criar Container do Dia
+                const contentDiv = document.createElement('div');
+                contentDiv.id = `content-${index}`;
+                contentDiv.className = `tab-content ${isActive ? 'active' : ''}`;
+                
+                // Renderizar Eventos do Dia
+                let eventsHtml = '';
+                day.events.forEach((evt, evtIndex) => {
+                    
+                    // Renderização de Local com Link
+                    let locationHtml = '';
+                    if (evt.location && evt.location !== '-') {
+                        const mapLink = getMapLink(evt.location);
+                        locationHtml = `
+                            <a href="${mapLink}" target="_blank" class="text-sm text-blue-600 hover:text-blue-800 hover:underline mb-2 block transition-colors">
+                                <i class="fas fa-map-marker-alt mr-1 w-4 text-center text-red-500"></i> ${evt.location}
+                            </a>`;
+                    }
+                    
+                    // Processar Links de Voo no Título e Obs
+                    let processedTitle = linkifyFlight(evt.title);
+                    let processedObs = linkifyFlight(evt.obs);
+
+                    if (evt.title.includes("Recepção")) {
+                         processedTitle = processedTitle.replace('fa-plane', 'fa-plane-arrival');
+                         processedObs = processedObs.replace('fa-plane', 'fa-plane-arrival');
+                    } else if (evt.title.includes("Regresso")) {
+                         processedTitle = processedTitle.replace('fa-plane', 'fa-plane-departure');
+                    }
+
+                    eventsHtml += `
+                        <div class="event-card relative bg-white p-4 rounded-lg shadow-sm border-l-4 border-blue-900 mb-4" data-time="${evt.time}" data-date="${day.date}">
+                            <div class="flex justify-between items-start mb-1">
+                                <span class="text-xl font-bold navy-text">${evt.time}</span>
+                                ${getUniformBadge(evt.uniform)}
+                            </div>
+                            <h3 class="font-semibold text-lg leading-tight mb-1 text-gray-800">${processedTitle}</h3>
+                            
+                            ${locationHtml}
+                            
+                            ${processedObs ? `<div class="text-xs text-orange-600 font-medium mb-2"><i class="fas fa-info-circle mr-1 w-4 text-center"></i> ${processedObs}</div>` : ''}
+
+                            <div class="mt-3 pt-3 border-t border-gray-100">
+                                <p class="text-xs text-gray-500 uppercase font-semibold">Participantes:</p>
+                                <p class="text-xs text-gray-700 leading-relaxed">${evt.participants}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+                contentDiv.innerHTML = eventsHtml;
+                eventsContainer.appendChild(contentDiv);
+            });
+
+            // Iniciar o "Red Line Indicator"
+            updateTimeIndicator();
+            setInterval(updateTimeIndicator, 60000); // Atualizar a cada minuto
+        }
+
+        // 2. Troca de Abas
+        function switchTab(index) {
+            // Atualizar botões
+            const buttons = tabContainer.children;
+            for (let i = 0; i < buttons.length; i++) {
+                if (i === index) {
+                    buttons[i].className = 'flex-1 py-2 px-4 rounded-lg text-sm transition-all whitespace-nowrap bg-white text-blue-900 font-bold shadow';
+                } else {
+                    buttons[i].className = 'flex-1 py-2 px-4 rounded-lg text-sm transition-all whitespace-nowrap bg-blue-900 text-blue-200 hover:bg-blue-800';
+                }
+            }
+            // Atualizar conteúdo
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach((c, i) => {
+                c.classList.remove('active');
+                if (i === index) c.classList.add('active');
+            });
+        }
+
+        // 3. Lógica da "Linha Vermelha" (Google Agenda Style)
+        function updateTimeIndicator() {
+            // Remover linha anterior se existir
+            const existingLine = document.querySelector('.current-time-line');
+            if (existingLine) existingLine.remove();
+
+            const now = new Date();
+            // --- MODO DE TESTE (Descomente para simular o horário 10:30 do dia 02 FEV) ---
+            // const now = new Date('2026-02-02T10:30:00'); 
+
+            const currentDateStr = now.toISOString().split('T')[0];
+            const currentHour = now.getHours();
+            const currentMin = now.getMinutes();
+            const currentTimeVal = currentHour * 60 + currentMin;
+
+            // Encontrar o container do dia atual
+            const dayIndex = scheduleData.findIndex(d => d.date === currentDateStr);
+            if (dayIndex === -1) return; // Se não for dia de evento, não mostra linha
+
+            const dayContainer = document.getElementById(`content-${dayIndex}`);
+            if (!dayContainer) return;
+
+            const cards = dayContainer.querySelectorAll('.event-card');
+            let inserted = false;
+
+            // Inserir a linha na posição correta entre os cards
+            for (let i = 0; i < cards.length; i++) {
+                const cardTimeStr = cards[i].getAttribute('data-time');
+                const [h, m] = cardTimeStr.split(':').map(Number);
+                const cardTimeVal = h * 60 + m;
+
+                if (currentTimeVal < cardTimeVal) {
+                    // O horário atual é ANTES deste card, inserir linha aqui
+                    const line = createTimeLineStr(currentHour, currentMin);
+                    cards[i].insertAdjacentHTML('beforebegin', line);
+                    inserted = true;
+                    break;
+                }
+            }
+
+            // Se passou de todos os eventos, insere no final
+            if (!inserted && cards.length > 0) {
+                 const lastCard = cards[cards.length - 1];
+                 const cardTimeStr = lastCard.getAttribute('data-time');
+                 // Só insere se for razoavelmente perto (até 2h depois do último evento)
+                 const [h, m] = cardTimeStr.split(':').map(Number);
+                 if (currentTimeVal < (h * 60 + m + 120)) {
+                    const line = createTimeLineStr(currentHour, currentMin);
+                    lastCard.insertAdjacentHTML('afterend', line);
+                 }
+            }
+        }
+
+        function createTimeLineStr(h, m) {
+            const timeStr = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+            return `
+                <div class="current-time-line fade-in">
+                    <div class="current-time-dot"></div>
+                    <div class="h-px bg-red-500 flex-grow"></div>
+                    <span class="current-time-label">AGORA (${timeStr})</span>
+                </div>
+            `;
+        }
+
+        initApp();
+
+    </script>
+</body>
+</html>```
+
