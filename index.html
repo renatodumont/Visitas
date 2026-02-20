@@ -265,6 +265,15 @@
             });
         }
 
+        // --- FUNÇÕES AUXILIARES ---
+        function getWaLink(phone) {
+            if (!phone || phone === '-') return '#';
+            const clean = phone.replace(/\D/g, '');
+            // Assume prefixo 55 se não houver
+            const formatted = clean.startsWith('55') ? clean : '55' + clean;
+            return `https://wa.me/${formatted}`;
+        }
+
         // --- MODAIS ---
         function openModal(type) {
             const m = document.getElementById('info-modal');
@@ -288,6 +297,7 @@
             } else if (type === 'autoridades') {
                 title.innerText = "Logística das Autoridades";
                 logistics.autoridades_logistica.forEach(a => {
+                    const wa = getWaLink(a.tel_mot);
                     content += `
                     <div class="bg-white p-4 rounded-xl border mb-3 shadow-md border-t-2 border-blue-900">
                         <div class="mb-3">
@@ -298,7 +308,10 @@
                             <p class="flex items-center"><i class="fas fa-car mr-2 text-blue-900 w-4 text-center"></i><span class="font-bold mr-1">VTR:</span> ${a.vtr}</p>
                             <div class="flex items-center justify-between">
                                 <p class="flex items-center"><i class="fas fa-user-circle mr-2 text-blue-900 w-4 text-center"></i><span class="font-bold mr-1">Motorista:</span> ${a.mot}</p>
-                                <a href="tel:${a.tel_mot.replace(/\D/g,'')}" class="bg-green-100 text-green-700 px-2 py-0.5 rounded font-black text-[9px]"><i class="fas fa-phone mr-1"></i>Ligar</a>
+                                <div class="flex gap-1">
+                                    <a href="tel:${a.tel_mot.replace(/\D/g,'')}" class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded font-black text-[9px] flex items-center"><i class="fas fa-phone mr-1"></i>Ligar</a>
+                                    <a href="${wa}" target="_blank" class="bg-green-100 text-green-700 px-2 py-0.5 rounded font-black text-[9px] flex items-center"><i class="fab fa-whatsapp mr-1 text-[11px]"></i>WhatsApp</a>
+                                </div>
                             </div>
                             <p class="flex items-center"><i class="fas fa-hotel mr-2 text-blue-900 w-4 text-center"></i><span class="font-bold mr-1">Hospedagem:</span> ${a.hosp}</p>
                         </div>
@@ -315,8 +328,8 @@
                             <div><p class="font-bold text-xs text-gray-800">${t.name}</p><p class="text-[9px] text-gray-400">${t.role}</p></div>
                             <div class="flex gap-2">
                                 ${t.phone !== '-' ? `
-                                <a href="tel:${t.phone}" class="bg-blue-50 text-blue-600 p-2 rounded-full"><i class="fas fa-phone text-xs"></i></a>
-                                <a href="https://wa.me/55${t.phone}" target="_blank" class="bg-green-500 text-white p-2 rounded-full shadow-sm"><i class="fab fa-whatsapp"></i></a>
+                                <a href="tel:${t.phone}" class="bg-blue-50 text-blue-600 p-2 rounded-full flex items-center justify-center w-8 h-8"><i class="fas fa-phone text-xs"></i></a>
+                                <a href="${getWaLink(t.phone)}" target="_blank" class="bg-green-500 text-white p-2 rounded-full shadow-sm flex items-center justify-center w-8 h-8"><i class="fab fa-whatsapp"></i></a>
                                 ` : '<span class="text-gray-300 p-2"><i class="fas fa-phone-slash"></i></span>'}
                             </div>
                         </div>`;
@@ -325,6 +338,7 @@
             } else if (type === 'motoristas') {
                 title.innerText = "Controle das Viaturas";
                 logistics.vtrs.forEach(v => {
+                    const wa = getWaLink(v.tel);
                     content += `
                     <div class="bg-white p-3 rounded-xl border mb-3 flex justify-between items-center shadow-sm">
                         <div class="flex-grow">
@@ -333,15 +347,18 @@
                             <p class="text-[9px] text-gray-400 font-black">${v.model} [${v.plate}]</p>
                             <p class="text-[10px] text-gray-600 mt-1 font-medium"><i class="fas fa-user-circle mr-1"></i>${v.mot}</p>
                         </div>
-                        <a href="tel:${v.tel.replace(/\D/g,'')}" class="bg-green-500 text-white p-3 rounded-full shadow-md ml-3 transition hover:bg-green-600"><i class="fas fa-phone"></i></a>
+                        <div class="flex gap-2 ml-3">
+                            <a href="tel:${v.tel.replace(/\D/g,'')}" class="bg-blue-600 text-white p-3 rounded-full shadow-md transition hover:bg-blue-700 flex items-center justify-center w-11 h-11"><i class="fas fa-phone"></i></a>
+                            <a href="${wa}" target="_blank" class="bg-green-500 text-white p-3 rounded-full shadow-md transition hover:bg-green-600 flex items-center justify-center w-11 h-11"><i class="fab fa-whatsapp text-lg"></i></a>
+                        </div>
                     </div>`;
                 });
             } else if (type === 'uniformes') {
                 title.innerText = "Uniformes VISITEC-DASM";
                 const unis = [
-                    { t: "OP3", img: "https://7maresbrasil.com.br/wp-content/uploads/2024/02/OP3-0.jpg", d: "Uniforme Operativo Azul-Ferrete / Passeio. Uso obrigatório do Boné Azul de Viagem em trânsito externo." },
-                    { t: "Passeio", img: "Passeio.png", d: "Uniforme de Passeio (Cinza/Cáqui). Utilizado em trânsito, visitas oficiais e recepções administrativas conforme o protocolo." },
-                    { t: "Esporte Amazônico", img: "https://aramis-wp.s3.us-west-2.amazonaws.com/2025/07/homem-polo-branca-calca-escura-683x1024.jpg", d: "Camisa Polo branca (ou MB), calça jeans/social escura e sapato fechado." }
+                    { t: "OP3", img: "op3-branco.png", d: "Uniforme Operativo Azul-Ferrete / Passeio. Uso obrigatório do Boné Azul de Viagem em trânsito externo." },
+                    { t: "Passeio", img: "Passeio.png", d: "O traje civil passeio masculino deve ser composto por: sapato, calça e camisa sociais; e paletó ou blazer" },
+                    { t: "Esporte Amazônico", img: "Esporte-Amazonico.png", d: "Camisa Polo branca (ou MB), calça jeans/social escura e sapato fechado." }
                 ];
                 unis.forEach(u => {
                     content += `<div class="bg-white p-3 rounded-xl border mb-3 shadow-sm"><p class="font-black text-blue-900 mb-2 text-xs uppercase">${u.t}</p><img src="${u.img}" class="w-full h-72 object-cover object-top rounded mb-2 shadow-inner"><p class="text-[10px] text-gray-500 leading-tight font-medium">${u.d}</p></div>`;
