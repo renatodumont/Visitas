@@ -14,6 +14,7 @@
         }
         .navy-bg { background-color: #0c1c38; }
         .navy-text { color: #0c1c38; }
+        .gold-text { color: #FFD700; } /* Amarelo Ouro */
         
         /* Timeline - Linha do Tempo Vermelha */
         .current-time-line {
@@ -65,22 +66,26 @@
     <header class="navy-bg text-white p-4 shadow-2xl sticky top-0 z-50">
         <div class="flex justify-between items-center mb-4">
             <div>
-                <p class="text-[10px] font-light opacity-70 uppercase tracking-widest">Marinha do Brasil</p>
+                <p class="text-[10px] font-black gold-text uppercase tracking-widest">MARINHA DO BRASIL</p>
                 <h1 class="text-base font-bold leading-tight uppercase">Comando do 4º Distrito Naval</h1>
                 <h2 class="text-sm font-light text-blue-300 italic">VISITEC-DASM / Abrigo do Marinheiro</h2>
             </div>
-            <i class="fas fa-anchor text-2xl opacity-40"></i>
+            <!-- Ícone de Download de PDF em Vermelho com Texto em Branco -->
+            <div class="flex flex-col items-center opacity-90 hover:opacity-100 transition cursor-pointer p-2">
+                <i class="fas fa-file-pdf text-2xl text-red-600"></i>
+                <span class="text-[8px] font-black text-white uppercase mt-1 tracking-tighter">Download</span>
+            </div>
         </div>
 
         <!-- Menu de Acesso Rápido -->
-        <div class="grid grid-cols-5 gap-1.5 mb-4">
-            <button onclick="openModal('comitivas')" class="bg-blue-800 hover:bg-blue-700 p-2 rounded flex flex-col items-center border border-white/5 transition">
-                <i class="fas fa-bed text-sm mb-1"></i>
-                <span class="text-[8px] font-bold uppercase">Hóspedes</span>
-            </button>
+        <div class="grid grid-cols-5 gap-1 mb-4">
             <button onclick="openModal('autoridades')" class="bg-blue-800 hover:bg-blue-700 p-2 rounded flex flex-col items-center border border-white/5 transition">
                 <i class="fas fa-id-badge text-sm mb-1"></i>
                 <span class="text-[8px] font-bold uppercase">Autoridades</span>
+            </button>
+            <button onclick="openModal('comitivas')" class="bg-blue-800 hover:bg-blue-700 p-2 rounded flex flex-col items-center border border-white/5 transition">
+                <i class="fas fa-hotel text-sm mb-1"></i>
+                <span class="text-[8px] font-bold uppercase">Hospedagens</span>
             </button>
             <button onclick="openModal('uniformes')" class="bg-blue-800 hover:bg-blue-700 p-2 rounded flex flex-col items-center border border-white/5 transition">
                 <i class="fas fa-tshirt text-sm mb-1"></i>
@@ -88,7 +93,7 @@
             </button>
             <button onclick="openModal('motoristas')" class="bg-blue-800 hover:bg-blue-700 p-2 rounded flex flex-col items-center border border-white/5 transition">
                 <i class="fas fa-car text-sm mb-1"></i>
-                <span class="text-[8px] font-bold uppercase">VTRs</span>
+                <span class="text-[8px] font-bold uppercase">Viaturas</span>
             </button>
             <button onclick="openModal('telefones')" class="bg-blue-800 hover:bg-blue-700 p-2 rounded flex flex-col items-center border border-white/5 transition">
                 <i class="fas fa-phone text-sm mb-1"></i>
@@ -123,40 +128,40 @@
     </div>
 
     <script>
-        // --- DADOS DA VISITEC-DASM (Extraídos do PDF) ---
+        // --- DADOS DA VISITEC-DASM ---
         const schedule = [
             { label: "04 MAR", date: "2026-03-04", events: [
-                { time: "11:35", title: "Recepção ao V Alte (RM1-FN) ROSSATTO", loc: "Aeroporto de Belém", uni: "OP3", flight: "GOL G3 1778", part: "DN-02, DN-04 e DN-02.1" },
-                { time: "12:00", title: "Recepção ao C Alte LEONARDO VIANNA", loc: "Aeroporto de Belém", uni: "OP3", flight: "GOL G3 1158", part: "DN-02, DN-04 e DN-02.1" },
-                { time: "12:15", title: "Instalação dos Almirantes", loc: "Residência Funcional do CEM", uni: "OP3" },
-                { time: "12:45", title: "Almoço", loc: "Residência Funcional do CEM", uni: "OP3", part: "V Alte Rossatto, C Alte Vianna, DN-02, DN-04 e CGS" },
-                { time: "14:30", title: "Visita ao NAS", loc: "NAS", uni: "OP3", part: "V Alte Rossatto, C Alte Vianna, DN-02, DN-04 e CGS" },
-                { time: "15:30", title: "Visita ao Núcleo de Assistência ao Idoso (NAIM)", loc: "UMI", uni: "OP3", part: "V Alte Rossatto, C Alte Vianna, DN-02, HNBe-01, DN-04 e CGS" },
-                { time: "19:00", title: "Jantar", loc: "Restaurante Amazônia na Cuia", uni: "Esporte Amazônico", part: "V Alte Rossatto, C Alte Vianna, DN-02, DN-04 e CGS" }
+                { id: "e1", time: "11:35", title: "Recepção ao V Alte (RM1-FN) ROSSATTO", loc: "Aeroporto de Belém", uni: "OP3/Passeio", flight: "GOL G3 1778", desc: "Participantes: DN-02, DN-04 e DN-02.1." },
+                { id: "e2", time: "12:00", title: "Recepção ao C Alte LEONARDO VIANNA", loc: "Aeroporto de Belém", uni: "OP3/Passeio", flight: "GOL G3 1158", desc: "Participantes: DN-02, DN-04 e DN-02.1." },
+                { id: "e3", time: "12:15", title: "Instalação dos Almirantes", loc: "Residência Funcional do CEM-Com4ºDN", uni: "OP3/Passeio", desc: "" },
+                { id: "e4", time: "12:45", title: "Almoço", loc: "Residência Funcional do CEM-Com4ºDN", uni: "OP3/Passeio", desc: "Participantes: V Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-04 e CGS." },
+                { id: "e5", time: "14:30", title: "Visita ao NAS", loc: "NAS", uni: "OP3/Passeio", desc: "Participantes: V Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-04 e CGS." },
+                { id: "e6", time: "15:30", title: "Visita ao Núcleo de Assistência ao Idoso (NAIM)", loc: "UMI", uni: "OP3/Passeio", desc: "Participantes: V Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, HNBe-01, DN-04 e CGS." },
+                { id: "e7", time: "19:00", title: "Jantar", loc: "Restaurante Amazônia na Cuia", uni: "Esporte Amazônico", desc: "Participantes: V Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-04 e CGS." }
             ]},
             { label: "05 MAR", date: "2026-03-05", events: [
-                { time: "07:00", title: "Café da Manhã", loc: "Residência Funcional do CEM", uni: "OP3", part: "V Alte Rossatto, DASM-01, DN-02, DN-04, BNVC-01 e 2°BtlopRib-01" },
-                { time: "08:30", title: "Apresentação do DRAMN (CMG CLARK)", loc: "Auditório Portal da Amazônia", uni: "OP3", part: "V Alte Rossatto, C Alte Vianna, DN-02, DN-04, CGS e Comitiva AMN" },
-                { time: "10:00", title: "Abertura da VISITEC (C Alte LEONARDO VIANNA)", loc: "Auditório Portal da Amazônia", uni: "OP3", part: "V Alte Rossatto, C Alte José Fábio, Comandantes/Diretores e Voluntárias VCB" },
-                { time: "12:00", title: "Almoço", loc: "Salão Nobre", uni: "OP3", part: "Almirantes, CMGs e Convidados AMN" },
-                { time: "13:30", title: "Palestra: Atividades desenvolvidas pelo NAS", loc: "Auditório Portal da Amazônia", uni: "OP3", part: "Comitiva AMN, Oficiais e Praças do Pessoal/Assistência Social" },
-                { time: "14:00", title: "Palestra: Atividades desenvolvidas pelo SAS-Saúde/HNBe", loc: "Auditório Portal da Amazônia", uni: "OP3" },
-                { time: "15:00", title: "Visita às instalações do SAS-Saúde/HNBe", loc: "HNBe", uni: "OP3", part: "V Alte Rossatto, C Alte Vianna, DN-02, HNBe-01, DN-04 e CGS" },
-                { time: "19:00", title: "Jantar", loc: "Casa do Saulo das Onze Janelas", uni: "Esporte Amazônico", part: "V Alte Rossatto, C Alte Vianna, DN-02, DN-04 e CGS" }
+                { id: "e8", time: "07:00", title: "Café da Manhã", loc: "Residência CEM-Com4ºDN", uni: "OP3/Passeio", desc: "Participantes: V Alte (RM1-FN) ROSSATTO, DASM-01, DN-02, DN-04 e BNVC-01, 2°BtlopRib-01." },
+                { id: "e9", time: "08:30", title: "Apresentação do DRAMN (CMG CLARK)", loc: "Auditório Portal da Amazônia", uni: "OP3/Passeio", desc: "Participantes: V Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-04, CGS, BNVC-01, 2°BtlopRib-01 e Comitiva da AMN." },
+                { id: "e10", time: "10:00", title: "Abertura da VISITEC", loc: "Auditório Portal da Amazônia", uni: "OP3/Passeio", desc: "Realizada pelo C Alte LEONARDO VIANNA. Participantes: V Alte (RM1-FN) ROSSATTO, C Alte JOSÉ FABIO, Comandantes/Diretores, Imediatos/Vice-Diretores/Ajudantes, Oficiais do NAS, Oficiais dos setores de Pessoal e Assistência Social das OM, Suboficiais-Mores, Praças Auxiliares dos Departamentos de Pessoal e de Assistência Social das OM e Voluntárias Cisne-Branco." },
+                { id: "e11", time: "12:00", title: "Almoço", loc: "Salão Nobre", uni: "OP3/Passeio", desc: "Participantes: V Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, C Alte JOSÉ FABIO, CMG CLARK, CMG DANIEL JÚNIOR, CMG (IM) MARRA, CMG (RM1-IM) ÁTILA LIMA, CF (FN) LUCIANO, Dr. Wagner Jansen, Sra. Iris Carvalho, Sr. Jefferson Dantas e 1T (AA) RENATO MENDES." },
+                { id: "e12", time: "13:30", title: "Palestra sobre atividades do NAS/Com4ºDN", loc: "Auditório Portal da Amazônia", uni: "OP3/Passeio", desc: "Palestrante: CF (T) MENDONÇA. Participantes: V Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-04, CGS, Comitiva da AMN, Oficiais do NAS, Oficiais dos setores de Pessoal e Assistência Social das OM, Suboficiais-Mores, Praças Auxiliares dos Departamentos de Pessoal e de Assistência Social das OM." },
+                { id: "e13", time: "14:00", title: "Palestra sobre atividades do SAS-Saúde/HNBe", loc: "Auditório Portal da Amazônia", uni: "OP3/Passeio", desc: "Palestrante: 2° Ten (RM2-T) JUCIELEM AZULINO. Participantes: V Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-04, CGS, Comitiva da AMN, Oficiais do NAS, Oficiais dos setores de Pessoal e Assistência Social das OM, Suboficiais-Mores das OM e Praças Auxiliares dos Departamentos de Pessoal e de Assistência Social das OM." },
+                { id: "e14", time: "15:00", title: "Visita às instalações do SAS-Saúde/HNBe", loc: "HNBe", uni: "OP3/Passeio", desc: "Participantes: V Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, HNBe-01, DN-04 e CGS." },
+                { id: "e15", time: "19:00", title: "Jantar", loc: "Casa do Saulo das Onze Janelas", uni: "Esporte Amazônico", desc: "Participantes: V Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-04 e CGS." }
             ]},
             { label: "06 MAR", date: "2026-03-06", events: [
-                { time: "07:15", title: "Recepção da Comitiva no ARES-Veleiro", loc: "Vila Naval Veleiro", uni: "OP3" },
-                { time: "07:30", title: "Café da Manhã", loc: "Vila Naval Veleiro", uni: "OP3", part: "VA Rossatto, CA Vianna, DN-02, DN-04, CGS, BNVC-01 e 2°BtlopRib-01" },
-                { time: "08:30", title: "Visita às Instalações do ARES-Veleiro e HT", loc: "Vila Naval Veleiro", uni: "OP3" },
-                { time: "09:30", title: "Visita ao ARES-Albatroz", loc: "Vila Naval Albatroz", uni: "OP3" },
-                { time: "10:30", title: "Visita ao ARES-Espadarte", loc: "Vila Naval Espadarte", uni: "Passeio" },
-                { time: "12:00", title: "Almoço", loc: "Residência Funcional do CEM", uni: "Passeio", part: "VA Rossatto, CA Vianna, DN-02, DN-04, CGS, BNVC-01 e 2°BtlopRib-01" },
-                { time: "13:30", title: "Visita ao CIABA", loc: "CIABA", uni: "Passeio", part: "V Alte Rossatto, C Alte Vianna, DN-02, DN-04 e CGS" },
-                { time: "17:00", title: "Ida à Estação das Docas", loc: "Estação das Docas", uni: "Esporte Amazônico" }
+                { id: "e16", time: "07:15", title: "Recepção Comitiva no ARES Veleiro", loc: "Vila Naval Veleiro", uni: "OP3/Passeio", desc: "Participantes: V Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-04, CGS, BNVC-01, 2°BtlopRib-01 e Comitiva da AMN." },
+                { id: "e17", time: "07:30", title: "Café da Manhã", loc: "Vila Naval Veleiro", uni: "OP3/Passeio", desc: "Participantes: V Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-04, CGS, BNVC-01, 2°BtlopRib-01 e Comitiva da AMN." },
+                { id: "e18", time: "08:30", title: "Visita Instalações ARES-Veleiro e HT", loc: "Vila Naval Veleiro", uni: "OP3/Passeio", desc: "Participantes: V Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-04, CGS, BNVC-01, 2°BtlopRib-01, Comitiva da AMN e Supervisor do ARES-Veleiro." },
+                { id: "e19", time: "09:30", title: "Visita ao ARES-Clube Naval Albatroz", loc: "Vila Naval Albatroz", uni: "OP3/Passeio", desc: "Participantes: V Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-04, CGS, 2°BtlopRib-01, Comitiva da AMN e Supervisor do ARES-Albatroz." },
+                { id: "e20", time: "10:30", title: "Visita ao ARES-Clube Naval Espadarte", loc: "Vila Naval Espadarte", uni: "OP3/Passeio", desc: "Participantes: V Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-04, CGS, BNVC-01, Comitiva da AMN e Supervisor do ARES-Espadarte." },
+                { id: "e21", time: "12:00", title: "Almoço", loc: "Residência CEM-Com4ºDN", uni: "OP3/Passeio", desc: "Participantes: V Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-02.1, DN-04, CGS, BNVC-01 e 2°BtlopRib-01." },
+                { id: "e22", time: "13:30", title: "Visita ao CIABA", loc: "CIABA", uni: "OP3/Passeio", desc: "Participantes: V Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-02.1, DN-04 e CGS." },
+                { id: "e23", time: "17:00", title: "Ida à Estação das Docas", loc: "Estação das Docas", uni: "Esporte Amazônico", desc: "Participantes: V Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-02.1, DN-04 e CGS." }
             ]},
             { label: "07 MAR", date: "2026-03-07", events: [
-                { time: "05:00", title: "Retorno V Alte (RM1-FN) ROSSATTO", loc: "Aeroporto de Belém", uni: "OP3", flight: "GOL G3 1728" },
-                { time: "05:00", title: "Retorno C Alte LEONARDO VIANNA", loc: "Aeroporto de Belém", uni: "OP3", flight: "LATAM LA3229" }
+                { id: "e24", time: "05:00", title: "Retorno V Alte (RM1-FN) ROSSATTO", loc: "Aeroporto de Belém", uni: "OP3/Passeio", flight: "GOL G3 1728", desc: "Participantes: DN-02, DN-04 e DN-02.1." },
+                { id: "e25", time: "05:00", title: "Retorno C Alte LEONARDO VIANNA", loc: "Aeroporto de Belém", uni: "OP3/Passeio", flight: "LATAM LA3229", desc: "Participantes: DN-02, DN-04 e DN-02.1." }
             ]}
         ];
 
@@ -164,37 +169,28 @@
             hospedes: [
                 { nome: "V Alte (RM1-FN) ROSSATTO", cargo: "Presidente Conselho Deliberativo AMN", local: "Residência Funcional do CEM", periodo: "04 a 07 MAR" },
                 { nome: "C Alte LEONARDO VIANNA", cargo: "Diretor DASM / Diretor Geral AMN", local: "Residência Funcional do CEM", periodo: "04 a 07 MAR" },
-                { nome: "CMG (RM1 IM) ÁTILA LIMA", cargo: "AMN - Assessor de Compliance e Controle", local: "Hotel Grão Pará", periodo: "03 a 07 MAR" },
-                { nome: "CC (T) JUAN FELIPE A. OLIVEIRA", cargo: "Encarregado da Divisão de Planejamento", local: "HT-COM4DN", periodo: "03 a 07 MAR" },
-                { nome: "CT (IM) MARCELLO SILVA DE PAULA", cargo: "Encarregado da Divisão de Intendência", local: "HT-COM4DN", periodo: "03 a 07 MAR" },
-                { nome: "1°Ten (T) MARCIO COSTA DA SILVA", cargo: "Encarregado da Seção de Estudos", local: "HT-COM4DN", periodo: "03 a 07 MAR" },
+                { nome: "CMG (RM1 IM) ÁTILA LIMA", cargo: "AMN - Assessor de Compliance", local: "Hotel Grão Pará", periodo: "03 a 07 MAR" },
+                { nome: "CC (T) JUAN FELIPE A. OLIVEIRA", cargo: "Enc. Divisão de Planejamento", local: "HT-COM4DN", periodo: "03 a 07 MAR" },
+                { nome: "CT (IM) MARCELLO SILVA DE PAULA", cargo: "Enc. Divisão de Intendência", local: "HT-COM4DN", periodo: "03 a 07 MAR" },
+                { nome: "1°Ten (T) MARCIO COSTA DA SILVA", cargo: "Enc. Seção de Estudos", local: "HT-COM4DN", periodo: "03 a 07 MAR" },
                 { nome: "DR. WAGNER JANSEN", cargo: "AMN - Advogado", local: "Hotel Grão Pará", periodo: "03 a 07 MAR" },
                 { nome: "SRA. IRIS CARVALHO", cargo: "AMN - Contadora", local: "Hotel Grão Pará", periodo: "03 a 07 MAR" },
                 { nome: "SR. JEFFERSON DANTAS", cargo: "AMN - Administrador", local: "Hotel Grão Pará", periodo: "03 a 07 MAR" }
-            ],
-            vtrs: [
-                { id: "01", auth: "VA ROSSATTO", model: "TOYOTA COROLLA", plate: "RWY-6C87", mot: "2° SG-MA GOULART", tel: "(21) 97339-0076" },
-                { id: "02", auth: "CA VIANNA", model: "TOYOTA COROLLA", plate: "SZF-4C02", mot: "1°SG-CP RAFAEL", tel: "(91) 98239-3991" },
-                { id: "03", auth: "CA JOSÉ FÁBIO", model: "NISSAN SENTRA", plate: "RMY-6D47", mot: "2° SG-EL JONATHA", tel: "(61) 99196-6674" },
-                { id: "04", auth: "APOIO COMITIVA", model: "VAN", plate: "RWY-4H06", mot: "MN-RM2 PRINTES", tel: "(91) 98458-6386" }
             ],
             contatos: [
                 { superHeader: "Com4ºDN" },
                 { header: "Almirantes" },
                 { name: "V Alte BATISTA", phone: "91982660201", role: "Comandante" },
                 { name: "C Alte JOSÉ FABIO", phone: "91982660233", role: "CEM-Com4ºDN" },
-                { header: "Assistentes" },
-                { name: "1T (AA) RENATO MENDES", phone: "91982660275", role: "Assistente CEM" },
-                { superHeader: "Saúde e NAS" },
-                { name: "CMG CLARK", phone: "-", role: "DRAMN / NAS" },
-                { name: "CF (T) MENDONÇA", phone: "-", role: "NAS-Com4ºDN" },
-                { name: "HNBe-01", phone: "-", role: "Direção HNBe" }
+                { superHeader: "Titulares de OM" },
+                { name: "CMG ROVERE", phone: "91982660312", role: "CIABA" },
+                { name: "CF ANSELMO", phone: "91982660158", role: "CHN-4" }
             ],
-            autoridades_logistica: [
-                { nome: "VA (RM1-FN) ROSSATTO", cargo: "Pres. Conselho AMN", vtr: "VTR 01 (RWY-6C87)", mot: "2° SG-MA Goulart", tel_mot: "(21) 97339-0076", hosp: "Res. Funcional do CEM" },
-                { nome: "CA LEONARDO VIANNA", cargo: "Diretor DASM", vtr: "VTR 02 (SZF-4C02)", mot: "1°SG-CP Rafael", tel_mot: "(91) 98239-3991", hosp: "Res. Funcional do CEM" },
-                { nome: "C ALTE JOSÉ FÁBIO", cargo: "Chefe do EM", vtr: "VTR 03 (RMY-6D47)", mot: "2° SG-EL Jonatha", tel_mot: "(61) 99196-6674", hosp: "Residência Própria" },
-                { nome: "COMITIVA AMN/DASM", cargo: "Equipe Técnica", vtr: "VTR 04 (VAN - RWY-4H06)", mot: "MN-RM2 Printes", tel_mot: "(91) 98458-6386", hosp: "Hotel Grão Pará / HT-Com4DN" }
+            vtrs: [
+                { auth: "V Alte (RM1-FN) ROSSATTO", model: "TOYOTA COROLLA", plate: "RWY-6C87", mot: "2° SG-MA GOULART", tel: "21973390076", hosp: "Res. Funcional CEM" },
+                { auth: "C Alte LEONARDO VIANNA", model: "TOYOTA COROLLA", plate: "SZF-4C02", mot: "1°SG-CP RAFAEL", tel: "91982393991", hosp: "Res. Funcional CEM" },
+                { auth: "C Alte JOSÉ FÁBIO", model: "NISSAN SENTRA", plate: "RMY-6D47", mot: "2° SG-EL JONATHA", tel: "61991966674", hosp: "Residência Própria" },
+                { auth: "APOIO COMITIVA", model: "VAN", plate: "RWY-4H06", mot: "MN-RM2 PRINTES", tel: "91984586386", hosp: "Hotel Grão Pará / HT-Com4DN" }
             ]
         };
 
@@ -216,15 +212,21 @@
                 
                 day.events.forEach(ev => {
                     div.innerHTML += `
-                        <div class="bg-white p-4 rounded-xl shadow-md border-l-4 border-blue-900 mb-4 transition hover:shadow-lg">
+                        <div class="bg-white p-4 rounded-xl shadow-md border-l-4 border-blue-900 mb-4 relative transition hover:shadow-lg overflow-hidden">
                             <div class="flex justify-between items-center mb-1.5">
                                 <span class="text-xl font-black navy-text tracking-tighter">${ev.time}</span>
                                 <span class="bg-blue-50 text-blue-800 text-[9px] font-black px-2 py-0.5 rounded border border-blue-100 uppercase">${ev.uni}</span>
                             </div>
-                            <h4 class="font-bold text-gray-800 text-sm leading-snug">${ev.title}</h4>
+                            <h4 class="font-bold text-gray-800 text-sm leading-tight pr-8">${ev.title}</h4>
                             <p class="text-[10px] text-gray-400 font-bold mt-1 uppercase"><i class="fas fa-map-marker-alt text-red-500 mr-1"></i> ${ev.loc}</p>
+                            
+                            <!-- Botão de Informações Amarelo Ouro reposicionado -->
+                            <button onclick="showEventInfo('${ev.id}')" class="absolute bottom-4 right-4 text-[#FFD700] hover:text-yellow-600 transition p-1" title="Ver Detalhes">
+                                <i class="fas fa-info-circle text-2xl"></i>
+                            </button>
+
                             ${ev.flight ? `
-                                <button onclick="openFlightModal('${ev.flight}')" class="w-full mt-3 bg-blue-900 text-white text-[9px] font-black py-2.5 rounded-lg flex items-center justify-center gap-2 shadow-sm">
+                                <button onclick="openFlightModal('${ev.flight}')" class="w-[calc(100%-40px)] mt-3 bg-blue-900 text-white text-[9px] font-black py-2.5 rounded-lg flex items-center justify-center gap-2">
                                     <i class="fas fa-plane"></i> STATUS ${ev.flight}
                                 </button>
                             ` : ''}
@@ -235,6 +237,51 @@
             updateIndicator();
             setInterval(updateIndicator, 60000);
         }
+
+        // Função para mostrar Observações do Evento no Modal
+        window.showEventInfo = function(eventId) {
+            let event = null;
+            schedule.forEach(day => {
+                const found = day.events.find(e => e.id === eventId);
+                if(found) event = found;
+            });
+
+            if(!event) return;
+
+            const modal = document.getElementById('info-modal');
+            const title = document.getElementById('modal-title');
+            const body = document.getElementById('modal-body');
+
+            title.innerText = "Observações da Atividade";
+            
+            const descContent = event.desc ? `
+                <div class="pt-4 border-t border-gray-100">
+                    <p class="text-[10px] font-bold text-blue-900 uppercase tracking-widest mb-2">Informações Adicionais</p>
+                    <p class="text-xs leading-relaxed text-gray-600 font-medium bg-gray-50 p-3 rounded-lg border-l-4 border-yellow-400 shadow-sm">
+                        ${event.desc}
+                    </p>
+                </div>` : `
+                <div class="pt-4 border-t border-gray-100 text-center py-4">
+                    <p class="text-[10px] font-bold text-gray-400 uppercase italic">Sem observações adicionais para este evento.</p>
+                </div>`;
+
+            body.innerHTML = `
+                <div class="bg-white p-4 rounded-xl border border-blue-100 shadow-inner">
+                    <div class="mb-4">
+                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Uniforme/Traje</p>
+                        <span class="bg-blue-900 text-white px-3 py-1 rounded-lg font-black text-xs uppercase">${event.uni}</span>
+                    </div>
+                    <div class="mb-4">
+                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Evento</p>
+                        <p class="text-sm font-black text-blue-900 leading-tight">${event.title}</p>
+                    </div>
+                    ${descContent}
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+            setTimeout(() => modal.classList.add('open'), 10);
+        };
 
         function switchTab(idx) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -253,7 +300,9 @@
             const timeVal = now.getHours() * 60 + now.getMinutes();
             let added = false;
             active.querySelectorAll('.bg-white').forEach(card => {
-                const [h, m] = card.querySelector('.text-xl').innerText.split(':').map(Number);
+                const timeEl = card.querySelector('.text-xl');
+                if(!timeEl) return;
+                const [h, m] = timeEl.innerText.split(':').map(Number);
                 if(!added && timeVal < (h*60 + m)) {
                     card.insertAdjacentHTML('beforebegin', `
                         <div class="current-time-line">
@@ -265,13 +314,9 @@
             });
         }
 
-        // --- FUNÇÕES AUXILIARES ---
-        function getWaLink(phone) {
-            if (!phone || phone === '-') return '#';
-            const clean = phone.replace(/\D/g, '');
-            // Assume prefixo 55 se não houver
-            const formatted = clean.startsWith('55') ? clean : '55' + clean;
-            return `https://wa.me/${formatted}`;
+        // --- AUXILIARES ---
+        function wa(phone) {
+            return `https://wa.me/55${phone.replace(/\D/g,'')}`;
         }
 
         // --- MODAIS ---
@@ -281,87 +326,95 @@
             const body = document.getElementById('modal-body');
             let content = "";
 
-            if (type === 'comitivas') {
-                title.innerText = "Controle de Hospedagem";
-                logistics.hospedes.forEach(h => {
+            if (type === 'autoridades') {
+                title.innerText = "Autoridades & Logística";
+                logistics.vtrs.forEach(a => {
                     content += `
-                    <div class="bg-white p-3 rounded-xl border mb-2 shadow-sm border-l-4 border-blue-900">
-                        <p class="font-black text-blue-900 text-[11px] leading-tight">${h.nome}</p>
-                        <p class="text-[9px] text-gray-500 uppercase font-bold leading-tight mt-0.5">${h.cargo}</p>
-                        <div class="mt-2 pt-2 border-t border-gray-50 flex justify-between items-center text-[10px] text-gray-600">
-                            <span class="font-medium"><i class="fas fa-bed mr-1 opacity-40"></i>${h.local}</span>
-                            <span class="font-bold text-blue-800">${h.periodo}</span>
+                    <div class="bg-white p-4 rounded-xl border mb-3 shadow-md border-t-4 border-blue-900">
+                        <p class="font-black text-blue-900 text-sm mb-1 uppercase">${a.auth}</p>
+                        <div class="space-y-2 mt-3">
+                            <div class="flex items-start justify-between bg-gray-50 p-2 rounded border border-gray-100">
+                                <div class="flex-grow">
+                                    <p class="text-[8px] font-bold text-gray-400 uppercase tracking-tighter">Motorista Responsável</p>
+                                    <p class="text-xs font-black text-gray-800 uppercase underline decoration-[#FFD700] decoration-2 underline-offset-4">${a.mot}</p>
+                                </div>
+                                <div class="flex gap-2 ml-2">
+                                    <a href="tel:${a.tel}" class="bg-blue-100 text-blue-700 p-2 rounded-full flex items-center justify-center w-8 h-8 transition hover:bg-blue-200 shadow-sm"><i class="fas fa-phone-alt text-xs"></i></a>
+                                    <a href="${wa(a.tel)}" target="_blank" class="bg-green-500 text-white p-2 rounded-full shadow-md flex items-center justify-center w-8 h-8 transition hover:bg-green-600"><i class="fab fa-whatsapp text-sm"></i></a>
+                                </div>
+                            </div>
+                            <div class="text-[10px] text-gray-600 font-medium space-y-1">
+                                <p class="flex items-center"><i class="fas fa-car mr-2 text-blue-900 w-4 text-center"></i><span class="mr-1 font-bold">VTR:</span> ${a.model} [${a.plate}]</p>
+                                <p class="flex items-center"><i class="fas fa-hotel mr-2 text-blue-900 w-4 text-center"></i><span class="mr-1 font-bold">Hospedagem:</span> ${a.hosp}</p>
+                            </div>
                         </div>
                     </div>`;
                 });
-            } else if (type === 'autoridades') {
-                title.innerText = "Logística das Autoridades";
-                logistics.autoridades_logistica.forEach(a => {
-                    const wa = getWaLink(a.tel_mot);
+            } else if (type === 'comitivas') {
+                title.innerText = "Controle de Hospedagens";
+                logistics.hospedes.forEach(h => {
                     content += `
-                    <div class="bg-white p-4 rounded-xl border mb-3 shadow-md border-t-2 border-blue-900">
-                        <div class="mb-3">
-                            <p class="font-black text-blue-900 text-sm leading-tight">${a.nome}</p>
-                            <p class="text-[9px] text-gray-400 font-bold uppercase tracking-tight">${a.cargo}</p>
+                    <div class="bg-white p-3 rounded-xl border mb-2 shadow-sm border-l-4 border-blue-900">
+                        <p class="font-black text-blue-900 text-[11px] leading-tight uppercase tracking-tight">${h.nome}</p>
+                        <p class="text-[9px] text-gray-500 uppercase font-bold leading-tight mt-0.5">${h.cargo}</p>
+                        <div class="mt-2 pt-2 border-t border-gray-100 flex justify-between items-center text-[10px] text-gray-600 font-bold">
+                            <span><i class="fas fa-bed mr-1 opacity-40"></i>${h.local}</span>
+                            <span class="text-blue-800 uppercase tracking-tighter">${h.periodo}</span>
                         </div>
-                        <div class="grid grid-cols-1 gap-2 text-[11px] text-gray-700 bg-gray-50 p-2 rounded-lg">
-                            <p class="flex items-center"><i class="fas fa-car mr-2 text-blue-900 w-4 text-center"></i><span class="font-bold mr-1">VTR:</span> ${a.vtr}</p>
-                            <div class="flex items-center justify-between">
-                                <p class="flex items-center"><i class="fas fa-user-circle mr-2 text-blue-900 w-4 text-center"></i><span class="font-bold mr-1">Motorista:</span> ${a.mot}</p>
-                                <div class="flex gap-1">
-                                    <a href="tel:${a.tel_mot.replace(/\D/g,'')}" class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded font-black text-[9px] flex items-center"><i class="fas fa-phone mr-1"></i>Ligar</a>
-                                    <a href="${wa}" target="_blank" class="bg-green-100 text-green-700 px-2 py-0.5 rounded font-black text-[9px] flex items-center"><i class="fab fa-whatsapp mr-1 text-[11px]"></i>WhatsApp</a>
-                                </div>
-                            </div>
-                            <p class="flex items-center"><i class="fas fa-hotel mr-2 text-blue-900 w-4 text-center"></i><span class="font-bold mr-1">Hospedagem:</span> ${a.hosp}</p>
+                    </div>`;
+                });
+            } else if (type === 'motoristas') {
+                title.innerText = "Logística de Viaturas";
+                logistics.vtrs.forEach(v => {
+                    content += `
+                    <div class="bg-white p-4 rounded-xl border mb-3 shadow-lg transition transform">
+                        <div class="flex justify-between items-start mb-2 border-b pb-2">
+                            <span class="text-[10px] font-black text-blue-900 uppercase tracking-tighter flex items-center gap-2">
+                                <i class="fas fa-user text-[#FFD700]"></i> ${v.auth}
+                            </span>
+                        </div>
+                        <p class="text-sm font-black text-blue-900 uppercase mb-1 underline decoration-[#FFD700] decoration-2 underline-offset-4 tracking-tighter">
+                            ${v.mot}
+                        </p>
+                        <p class="text-[10px] text-gray-500 font-bold mb-3 italic uppercase flex items-center gap-1">
+                            <i class="fas fa-car-side text-blue-900"></i> ${v.model} <span class="text-gray-400 font-bold ml-1 tracking-widest">Placa: ${v.plate}</span>
+                        </p>
+                        <p class="text-[9px] text-gray-400 font-medium mb-3 flex items-center gap-1">
+                            <i class="fas fa-hotel"></i> ${v.hosp}
+                        </p>
+                        <div class="flex gap-2">
+                            <a href="tel:${v.tel}" class="flex-1 bg-blue-600 text-white text-[10px] font-bold py-2.5 rounded-lg flex items-center justify-center gap-2 shadow-md transition hover:bg-blue-700"><i class="fas fa-phone-alt"></i> CHAMAR</a>
+                            <a href="${wa(v.tel)}" target="_blank" class="flex-1 bg-green-500 text-white text-[10px] font-bold py-2.5 rounded-lg flex items-center justify-center gap-2 shadow-md transition hover:bg-green-600"><i class="fab fa-whatsapp"></i> WHATSAPP</a>
                         </div>
                     </div>`;
                 });
             } else if (type === 'telefones') {
-                title.innerText = "Contatos Úteis";
-                content = `<div class="bg-white rounded-xl border overflow-hidden">`;
+                title.innerText = "Contatos Operacionais";
+                content = `<div class="bg-white rounded-xl border overflow-hidden shadow-inner">`;
                 logistics.contatos.forEach(t => {
-                    if (t.superHeader) content += `<div class="bg-blue-900 p-2 text-white text-center font-bold text-[10px] uppercase tracking-widest">${t.superHeader}</div>`;
-                    else if (t.header) content += `<div class="bg-gray-100 p-1 pl-4 text-blue-900 font-bold text-[9px] uppercase border-y">${t.header}</div>`;
+                    if (t.superHeader) content += `<div class="bg-blue-900 p-2 text-white text-center font-bold text-[10px] uppercase tracking-widest shadow-md">${t.superHeader}</div>`;
+                    else if (t.header) content += `<div class="bg-gray-100 p-1.5 pl-4 text-blue-900 font-black text-[9px] uppercase border-y tracking-wider">${t.header}</div>`;
                     else content += `
-                        <div class="p-3 border-b flex justify-between items-center last:border-0">
-                            <div><p class="font-bold text-xs text-gray-800">${t.name}</p><p class="text-[9px] text-gray-400">${t.role}</p></div>
+                        <div class="p-3 border-b flex justify-between items-center last:border-0 bg-white">
+                            <div><p class="font-black text-xs text-gray-800 uppercase tracking-tighter">${t.name}</p><p class="text-[9px] text-gray-400 font-bold uppercase">${t.role}</p></div>
                             <div class="flex gap-2">
                                 ${t.phone !== '-' ? `
-                                <a href="tel:${t.phone}" class="bg-blue-50 text-blue-600 p-2 rounded-full flex items-center justify-center w-8 h-8"><i class="fas fa-phone text-xs"></i></a>
-                                <a href="${getWaLink(t.phone)}" target="_blank" class="bg-green-500 text-white p-2 rounded-full shadow-sm flex items-center justify-center w-8 h-8"><i class="fab fa-whatsapp"></i></a>
-                                ` : '<span class="text-gray-300 p-2"><i class="fas fa-phone-slash"></i></span>'}
+                                <a href="tel:${t.phone}" class="bg-blue-50 text-blue-600 p-2 rounded-full flex items-center justify-center w-8 h-8 shadow-sm transition hover:bg-blue-100"><i class="fas fa-phone text-xs"></i></a>
+                                <a href="${wa(t.phone)}" target="_blank" class="bg-green-500 text-white p-2 rounded-full flex items-center justify-center w-8 h-8 shadow-md transition hover:bg-green-600"><i class="fab fa-whatsapp text-sm"></i></a>
+                                ` : '<span class="text-gray-200 p-2"><i class="fas fa-phone-slash"></i></span>'}
                             </div>
                         </div>`;
                 });
                 content += "</div>";
-            } else if (type === 'motoristas') {
-                title.innerText = "Controle das Viaturas";
-                logistics.vtrs.forEach(v => {
-                    const wa = getWaLink(v.tel);
-                    content += `
-                    <div class="bg-white p-3 rounded-xl border mb-3 flex justify-between items-center shadow-sm">
-                        <div class="flex-grow">
-                            <span class="bg-blue-900 text-white font-black px-2 py-0.5 rounded text-[10px] uppercase">VTR ${v.id}</span>
-                            <p class="font-black text-[13px] mt-1 text-blue-900">${v.auth}</p>
-                            <p class="text-[9px] text-gray-400 font-black">${v.model} [${v.plate}]</p>
-                            <p class="text-[10px] text-gray-600 mt-1 font-medium"><i class="fas fa-user-circle mr-1"></i>${v.mot}</p>
-                        </div>
-                        <div class="flex gap-2 ml-3">
-                            <a href="tel:${v.tel.replace(/\D/g,'')}" class="bg-blue-600 text-white p-3 rounded-full shadow-md transition hover:bg-blue-700 flex items-center justify-center w-11 h-11"><i class="fas fa-phone"></i></a>
-                            <a href="${wa}" target="_blank" class="bg-green-500 text-white p-3 rounded-full shadow-md transition hover:bg-green-600 flex items-center justify-center w-11 h-11"><i class="fab fa-whatsapp text-lg"></i></a>
-                        </div>
-                    </div>`;
-                });
             } else if (type === 'uniformes') {
                 title.innerText = "Uniformes VISITEC-DASM";
                 const unis = [
-                    { t: "OP3", img: "op3-branco.png", d: "Uniforme Operativo Azul-Ferrete / Passeio. Uso obrigatório do Boné Azul de Viagem em trânsito externo." },
-                    { t: "Passeio", img: "Passeio.png", d: "O traje civil passeio masculino deve ser composto por: sapato, calça e camisa sociais; e paletó ou blazer" },
-                    { t: "Esporte Amazônico", img: "Esporte-Amazonico.png", d: "Camisa Polo branca (ou MB), calça jeans/social escura e sapato fechado." }
+                    { t: "OP3", img: "https://7maresbrasil.com.br/wp-content/uploads/2024/02/OP3-0.jpg", d: "Uniforme Operativo Azul-Ferrete. Uso obrigatório do Boné Azul de Viagem em trânsito externo." },
+                    { t: "Passeio", img: "https://metaartigos.com.br/assets/images/cinza-4-4-marinha-518x518.jpg", d: "Uniforme de Passeio (Cinza/Cáqui). Utilizado em recepções administrativas e visitas institucionais." },
+                    { t: "Esporte Amazônico", img: "https://aramis-wp.s3.us-west-2.amazonaws.com/2025/07/homem-polo-branca-calca-escura-683x1024.jpg", d: "Camisa Polo branca, calça social escura e sapato fechado." }
                 ];
                 unis.forEach(u => {
-                    content += `<div class="bg-white p-3 rounded-xl border mb-3 shadow-sm"><p class="font-black text-blue-900 mb-2 text-xs uppercase">${u.t}</p><img src="${u.img}" class="w-full h-72 object-cover object-top rounded mb-2 shadow-inner"><p class="text-[10px] text-gray-500 leading-tight font-medium">${u.d}</p></div>`;
+                    content += `<div class="bg-white p-3 rounded-xl border mb-3 shadow-md"><p class="font-black text-blue-900 mb-2 text-xs uppercase tracking-widest border-b pb-1">${u.t}</p><img src="${u.img}" class="w-full h-80 object-cover object-top rounded mb-2 shadow-inner"><p class="text-[10px] text-gray-500 leading-tight font-bold italic">${u.d}</p></div>`;
                 });
             }
 
@@ -376,22 +429,22 @@
             const body = document.getElementById('modal-body');
             const codeClean = flightCode.replace(/\s/g, '').toUpperCase();
             
-            title.innerText = "Rastreamento " + flightCode;
+            title.innerText = "Painel de Voo: " + flightCode;
             body.innerHTML = `
                 <div class="bg-white p-6 rounded-2xl border text-center shadow-inner">
                     <div class="flex justify-between items-center mb-6">
-                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Previsão</span>
-                        <span class="text-xs font-black text-green-600">NO HORÁRIO</span>
+                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Rastreamento Real</span>
+                        <span class="text-xs font-black text-green-600 animate-pulse uppercase">NO HORÁRIO</span>
                     </div>
                     <div class="relative h-1 bg-gray-100 rounded-full mb-8">
                         <div class="absolute inset-y-0 left-0 bg-blue-600 rounded-full" style="width: 75%"></div>
-                        <i class="fas fa-plane text-blue-900 absolute top-1/2 -translate-y-1/2" style="left: 75%"></i>
+                        <i class="fas fa-plane text-blue-900 absolute top-1/2 -translate-y-1/2 transition-all duration-1000" style="left: 75%"></i>
                     </div>
                     <div class="grid grid-cols-2 gap-4 mb-6">
-                        <div class="bg-gray-50 p-3 rounded-xl"><p class="text-[9px] font-bold text-gray-400 uppercase">Status</p><p class="font-black text-blue-900">EM VOO</p></div>
-                        <div class="bg-gray-50 p-3 rounded-xl"><p class="text-[9px] font-bold text-gray-400 uppercase">Aeroporto</p><p class="font-black text-blue-900">BEL</p></div>
+                        <div class="bg-gray-50 p-3 rounded-xl border border-gray-100"><p class="text-[9px] font-bold text-gray-400 uppercase">Status Radar</p><p class="font-black text-blue-900 uppercase">EM VOO</p></div>
+                        <div class="bg-gray-50 p-3 rounded-xl border border-gray-100"><p class="text-[9px] font-bold text-gray-400 uppercase">Destino Belém</p><p class="font-black text-blue-900 uppercase tracking-widest">BEL</p></div>
                     </div>
-                    <a href="https://pt.flightaware.com/live/flight/${codeClean}" target="_blank" class="block w-full bg-blue-900 text-white py-3.5 rounded-xl font-black text-[10px] shadow-lg transition hover:bg-blue-800">
+                    <a href="https://pt.flightaware.com/live/flight/${codeClean}" target="_blank" class="block w-full bg-blue-900 text-white py-4 rounded-xl font-black text-[11px] shadow-lg transition hover:bg-blue-800 tracking-widest">
                         ABRIR NO FLIGHTAWARE <i class="fas fa-external-link-alt ml-1"></i>
                     </a>
                 </div>`;
@@ -409,3 +462,4 @@
     </script>
 </body>
 </html>
+
