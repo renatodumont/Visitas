@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VISITEC-DASM | Programa de Eventos</title>
-    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -101,7 +100,6 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Badge clicável de uniforme */
         .uniform-badge {
             cursor: pointer;
             transition: all 0.2s ease;
@@ -110,11 +108,6 @@
             transform: scale(0.92);
             background-color: #e2e8f0;
         }
-
-        /* Responsividade para o Título do Header */
-        .fluid-title {
-            font-size: clamp(14px, 5vw, 20px);
-        }
     </style>
 </head>
 <body class="font-sans">
@@ -122,19 +115,28 @@
     <!-- Header Institucional Fixo -->
     <header class="glass-header text-white sticky top-0 z-50 border-b border-gold shadow-xl">
         <div class="p-4 sm:p-5">
-            <div class="flex justify-between items-center gap-3">
-                <div class="overflow-hidden">
-                    <p class="text-[10px] font-extrabold text-gold uppercase tracking-[0.25em] mb-1">Marinha do Brasil</p>
-                    <h1 class="fluid-title font-extrabold leading-tight whitespace-nowrap">Comando do 4º Distrito Naval</h1>
-                    <h2 class="text-[11px] font-medium text-blue-100 opacity-90 mt-0.5 tracking-wide truncate">VISITEC-DASM | Abrigo do Marinheiro</h2>
+            <div class="flex justify-between items-start gap-3">
+                <div class="flex-grow">
+                    <p class="text-[9px] font-extrabold text-gold uppercase tracking-[0.25em] mb-1">Marinha do Brasil</p>
+                    <h1 class="text-base sm:text-lg font-extrabold leading-tight">Comando do 4º Distrito Naval</h1>
+                    <h2 class="text-[10px] sm:text-[11px] font-medium text-blue-100 opacity-90 mt-0.5 tracking-wide">VISITEC-DASM | Abrigo do Marinheiro</h2>
                 </div>
-                <!-- Download PDF Otimizado -->
-                <a href="Programa.pdf" download="Programa-VISITEC-DASM.pdf" class="flex flex-col items-center group touch-target px-2 flex-shrink-0">
-                    <div class="bg-white/10 p-2 rounded-xl group-active:bg-gold/30 transition-colors border border-white/10">
-                        <i class="fas fa-file-pdf text-xl text-red-500"></i>
-                    </div>
-                    <span class="text-[9px] font-bold text-white uppercase mt-1 opacity-80">Download</span>
-                </a>
+                
+                <!-- Central de Downloads -->
+                <div class="flex gap-2 flex-shrink-0">
+                    <a href="Programa.pdf" download="Programa.pdf" class="flex flex-col items-center group">
+                        <div class="bg-white/10 w-10 h-10 flex items-center justify-center rounded-xl group-active:bg-gold/30 transition-colors border border-white/10">
+                            <i class="fas fa-file-pdf text-gold"></i>
+                        </div>
+                        <span class="text-[8px] font-bold text-white uppercase mt-1 opacity-70">Programa</span>
+                    </a>
+                    <a href="Livreto.pdf" download="Livreto.pdf" class="flex flex-col items-center group">
+                        <div class="bg-white/10 w-10 h-10 flex items-center justify-center rounded-xl group-active:bg-gold/30 transition-colors border border-white/10">
+                            <i class="fas fa-book text-gold"></i>
+                        </div>
+                        <span class="text-[8px] font-bold text-white uppercase mt-1 opacity-70">Livreto</span>
+                    </a>
+                </div>
             </div>
         </div>
 
@@ -165,7 +167,7 @@
         <div class="flex space-x-2 px-4 pb-4 overflow-x-auto no-scrollbar" id="tab-container"></div>
     </header>
 
-    <!-- Lista Vertical de Cards -->
+    <!-- Content Area -->
     <main class="p-4 sm:p-5 max-w-2xl mx-auto" id="events-container"></main>
 
     <!-- Modal Base -->
@@ -205,54 +207,40 @@
             { label: "04 MAR", date: "2026-03-04", events: [
                 { id: "e1", time: "11h35", title: "Recepção ao V Alte (RM1-FN) ROSSATTO", loc: "Aeroporto de Belém", uni: "OP3/Passeio", flight: "GOL G3 1778", desc: "Participantes: DN-02, DN-04 e DN-02.1" },
                 { id: "e2", time: "12h", title: "Recepção ao C Alte LEONARDO VIANNA", loc: "Aeroporto de Belém", uni: "OP3/Passeio", flight: "GOL G3 1158", desc: "Participantes: DN-02, DN-04 e DN-02.1" },
-                { id: "e3", time: "12h15", title: "Instalação dos Almirantes", loc: "Residência Funcional do CEM", uni: "OP3/Passeio", desc: "" },
-                { id: "e4", time: "12h45", title: "Almoço", loc: "Residência Funcional do CEM", uni: "OP3/Passeio", desc: "Participantes:\nV Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-04 e CGS." },
-                { id: "e5", time: "14h30", title: "Visita ao NAS", loc: "NAS", uni: "OP3/Passeio", desc: "Participantes:\nV Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-04 e CGS." },
-                { id: "e6", time: "15h30", title: "Visita ao Núcleo de Assistência ao Idoso (NAIM)", loc: "UMI", uni: "OP3/Passeio", desc: "Participantes:\nV Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, HNBe-01, DN-04 e CGS." },
-                { id: "e7", time: "19h", title: "Jantar", loc: "Restaurante Amazônia na Cuia", uni: "Esporte Amazônico", desc: "Participantes:\nV Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-04 e CGS." }
+                { id: "e4", time: "12h45", title: "Almoço", loc: "Residência CEM", uni: "OP3/Passeio", desc: "Participantes: V Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-04 e CGS." },
+                { id: "e5", time: "14h30", title: "Visita ao NAS", loc: "NAS", uni: "OP3/Passeio", desc: "Participantes: V Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-04 e CGS." },
+                { id: "e7", time: "19h", title: "Jantar", loc: "Restaurante Amazônia na Cuia", uni: "Esporte Amazônico", desc: "Participantes: V Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-04 e CGS." }
             ]},
             { label: "05 MAR", date: "2026-03-05", events: [
-                { id: "e8", time: "07h", title: "Café da Manhã", loc: "Residência Funcional do CEM", uni: "OP3/Passeio", desc: "Participantes:\nV Alte (RM1-FN) ROSSATTO, DASM-01, DN-02, DN-04 e BNVC-01, 2°BtlopRib-01." },
-                { id: "e9", time: "08h30", title: "Apresentação do DRAMN (CMG CLARK)", loc: "Auditório Portal da Amazônia", uni: "OP3/Passeio", desc: "Participantes:\nV Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-04, CGS, BNVC-01, 2°BtlopRib-01 e Comitiva da AMN." },
-                { id: "e10", time: "10h", title: "Abertura da VISITEC (C Alte VIANNA)", loc: "Auditório Portal da Amazônia", uni: "OP3/Passeio", desc: "Participantes:\nV Alte (RM1-FN) ROSSATTO, C Alte JOSÉ FABIO, Comandantes/Diretores, Imediatos/Vice-Diretores/Ajudantes, Oficiais do NAS, Oficiais dos setores de Pessoal e Assistência Social das OM, Suboficiais-Mores, Praças Auxiliares dos Departamentos de Pessoal e de Assistência Social das OM. e Voluntárias Cisne-Branco." },
-                { id: "e11", time: "12h", title: "Almoço", loc: "Salão Nobre", uni: "OP3/Passeio", desc: "Participantes:\nV Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, C Alte JOSÉ FABIO, CMG CLARK, CMG DANIEL JÚNIOR, CMG (IM) MARRA, CMG (RM1-IM) ÁTILA LIMA, CF (FN) LUCIANO, Dr. Wagner Jansen, Sra. Iris Carvalho, Sr. Jefferson Dantas e 1T (AA) RENATO MENDES." },
-                { id: "e12", time: "13h30", title: "Palestra NAS (CF MENDONÇA)", loc: "Auditório Portal da Amazônia", uni: "OP3/Passeio", desc: "Participantes:\nV Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-04, CGS, Comitiva da AMN, Oficiais do NAS, Oficiais dos setores de Pessoal e Assistência Social das OM, Suboficiais-Mores, Praças Auxiliares dos Departamentos de Pessoal e de Assistência Social das OM." },
-                { id: "e13", time: "14h", title: "Palestra SAS-Saúde/HNBe", loc: "Auditório Portal da Amazônia", uni: "OP3/Passeio", desc: "Participantes:\nV Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-04, CGS, Comitiva da AMN, Oficiais do NAS, Oficiais dos setores de Pessoal e Assistência Social das OM, Suboficiais-Mores das OM e Praças Auxiliares dos Departamentos de Pessoal e de Assistência Social das OM." },
-                { id: "e14", time: "15h", title: "Visita às Instalações do SAS-Saúde", loc: "HNBe", uni: "OP3/Passeio", desc: "Participantes:\nV Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, HNBe-01, DN-04 e CGS." },
-                { id: "e15", time: "19h", title: "Jantar", loc: "Casa do Saulo das Onze Janelas", uni: "Esporte Amazônico", desc: "Participantes:\nV Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-04 e CGS." }
+                { id: "e10", time: "10h", title: "Abertura da VISITEC (C Alte VIANNA)", loc: "Auditório Portal da Amazônia", uni: "OP3/Passeio", desc: "Participantes: V Alte (RM1-FN) ROSSATTO, C Alte JOSÉ FABIO, Comandantes/Diretores, Imediatos/Vice-Diretores/Ajudantes, Oficiais do NAS, Oficiais dos setores de Pessoal e Assistência Social das OM, Suboficiais-Mores, Praças Auxiliares dos Departamentos de Pessoal e de Assistência Social das OM e Voluntárias Cisne-Branco." },
+                { id: "e11", time: "12h", title: "Almoço", loc: "Salão Nobre", uni: "OP3/Passeio", desc: "Participantes: V Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, C Alte JOSÉ FABIO, CMG CLARK, CMG DANIEL JÚNIOR, CMG (IM) MARRA, CMG (RM1-IM) ÁTILA LIMA, CF (FN) LUCIANO, Dr. Wagner Jansen, Sra. Iris Carvalho, Sr. Jefferson Dantas e 1T (AA) RENATO MENDES." }
             ]},
             { label: "06 MAR", date: "2026-03-06", events: [
-                { id: "e16", time: "07h15", title: "Recepção no ARES Veleiro", loc: "Vila Naval Veleiro", uni: "OP3/Passeio", desc: "Participantes:\nV Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-04, CGS, BNVC-01, 2°BtlopRib-01 e Comitiva da AMN." },
-                { id: "e18", time: "08h30", title: "Visita ARES-Veleiro e HT", loc: "Vila Naval Veleiro", uni: "OP3/Passeio", desc: "Participantes:\nV Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-04, CGS, BNVC-01, 2°BtlopRib-01, Comitiva da AMN e Supervisor do ARES-Veleiro." },
-                { id: "e19", time: "09h30", title: "Visita ao ARES-Albatroz", loc: "Vila Naval Albatroz", uni: "OP3/Passeio", desc: "Participantes:\nV Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-04, CGS, 2°BtlopRib-01, Comitiva da AMN e Supervisor do ARES-Albatroz." },
-                { id: "e20", time: "10h30", title: "Visita ao ARES-Espadarte", loc: "Vila Naval Espadarte", uni: "OP3/Passeio", desc: "Participantes:\nV Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-04, CGS, BNVC-01, Comitiva da AMN e Supervisor do ARES-Espadarte." },
-                { id: "e21", time: "12h", title: "Almoço", loc: "Residência Funcional do CEM", uni: "OP3/Passeio", desc: "Participantes:\nV Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-02.1, DN-04, CGS, BNVC-01 e 2°BtlopRib-01." },
-                { id: "e22", time: "13h30", title: "Visita ao CIABA", loc: "CIABA", uni: "OP3/Passeio", desc: "Participantes:\nV Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-02.1, DN-04 e CGS." },
-                { id: "e23", time: "17h", title: "Ida à Estação das Docas", loc: "Estação das Docas", uni: "Esporte Amazônico", desc: "Participantes:\nV Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-02.1, DN-04 e CGS." }
+                { id: "e16", time: "07h15", title: "Recepção no ARES Veleiro", loc: "Vila Naval Veleiro", uni: "OP3/Passeio", desc: "Participantes: Almirantes e Comitiva AMN." },
+                { id: "e22", time: "13h30", title: "Visita ao CIABA", loc: "CIABA", uni: "OP3/Passeio", desc: "Participantes: V Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-02.1, DN-04 e CGS." }
             ]},
             { label: "07 MAR", date: "2026-03-07", events: [
-                { id: "e24", time: "05h", title: "Retorno V Alte ROSSATTO", loc: "Aeroporto", uni: "OP3/Passeio", flight: "GOL G3 1728" },
-                { id: "e25", time: "05h", title: "Retorno C Alte LEONARDO VIANNA", loc: "Aeroporto", uni: "OP3/Passeio", flight: "LATAM LA3229" }
+                { id: "e24", time: "05h", title: "Retorno V Alte ROSSATTO", loc: "Aeroporto", uni: "OP3/Passeio", flight: "G31728" },
+                { id: "e25", time: "05h", title: "Retorno C Alte LEONARDO VIANNA", loc: "Aeroporto", uni: "OP3/Passeio", flight: "LA3229" }
             ]}
         ];
 
         const logistics = {
             vtrs: [
-                { auth: "V Alte (RM1-FN) ROSSATTO", model: "TOYOTA COROLLA", plate: "RWY-6C87", mot: "2° SG-MA GOULART", tel: "21973390076", hosp: "Res. Funcional CEM" },
-                { auth: "C Alte LEONARDO VIANNA", model: "TOYOTA COROLLA", plate: "SZF-4C02", mot: "1°SG-CP RAFAEL", tel: "91982393991", hosp: "Res. Funcional CEM" },
-                { auth: "C Alte JOSÉ FÁBIO", model: "NISSAN SENTRA", plate: "RMY-6D47", mot: "2° SG-EL JONATHA", tel: "61991966674", hosp: "Residência Própria" },
-                { auth: "COMITIVA AMN", model: "VAN EXECUTIVE", plate: "RWY-4H06", mot: "MN-RM2 PRINTES", tel: "91984586386", hosp: "Hotel Grão Pará / HT-Com4DN" }
+                { auth: "V Alte (RM1-FN) ROSSATTO", model: "TOYOTA COROLLA", plate: "RWY-6C87", mot: "2° SG-MA GOULART", tel: "21973390076" },
+                { auth: "C Alte LEONARDO VIANNA", model: "TOYOTA COROLLA", plate: "SZF-4C02", mot: "1°SG-CP RAFAEL", tel: "91982393991" },
+                { auth: "COMITIVA AMN", model: "VAN EXECUTIVE", plate: "RWY-4H06", mot: "MN-RM2 PRINTES", tel: "91984586386" }
             ],
             hospedes: [
-                { n: "V Alte (RM1-FN) Rossatto", f: "Presidente CD AMN", l: "Residência Funcional CEM", p: "04 a 07 MAR" },
-                { n: "C Alte LEONARDO VIANNA", f: "Diretor DASM / DG AMN", l: "Residência Funcional CEM", p: "04 a 07 MAR" },
+                { n: "V Alte (RM1-FN) Rossatto", f: "Presidente CD AMN", l: "Residência CEM", p: "04 a 07 MAR" },
+                { n: "C Alte LEONARDO VIANNA", f: "Diretor DASM", l: "Residência CEM", p: "04 a 07 MAR" },
                 { n: "CMG (RM1 IM) Átila Lima", f: "Assessor AMN", l: "Hotel Grão Pará", p: "03 a 07 MAR" },
                 { n: "CC (T) Juan Felipe Alves", f: "Enc. Planejamento", l: "HT-COM4DN", p: "03 a 07 MAR" },
-                { n: "CT (IM) Marcello Silva De Paula", f: "Enc. Intendência", l: "HT-COM4DN", p: "03 a 07 MAR" },
-                { n: "1°Ten (T) Marcio Costa da Silva", f: "Enc. Seção de Estudos", l: "HT-COM4DN", p: "03 a 07 MAR" },
-                { n: "Dr. Wagner Jansen", f: "AMN - Advogado", l: "Hotel Grão Pará", p: "03 a 07 MAR" },
-                { n: "Sra. Iris Carvalho", f: "AMN - Contadora", l: "Hotel Grão Pará", p: "03 a 07 MAR" },
-                { n: "Sr. Jefferson Dantas", f: "AMN - Administrador", l: "Hotel Grão Pará", p: "03 a 07 MAR" }
+                { n: "CT (IM) Marcello Silva", f: "Enc. Intendência", l: "HT-COM4DN", p: "03 a 07 MAR" },
+                { n: "1°Ten (T) Marcio Costa", f: "Enc. Seção de Estudos", l: "HT-COM4DN", p: "03 a 07 MAR" },
+                { n: "Dr. Wagner Jansen", f: "Advogado AMN", l: "Hotel Grão Pará", p: "03 a 07 MAR" },
+                { n: "Sra. Iris Carvalho", f: "Contadora AMN", l: "Hotel Grão Pará", p: "03 a 07 MAR" },
+                { n: "Sr. Jefferson Dantas", f: "Administrador AMN", l: "Hotel Grão Pará", p: "03 a 07 MAR" }
             ],
             contatos: [
                 { superHeader: "COM4ºDN" },
@@ -278,41 +266,29 @@
         function init() {
             const tabs = document.getElementById('tab-container');
             const container = document.getElementById('events-container');
-            
             schedule.forEach((day, idx) => {
                 const btn = document.createElement('button');
-                btn.className = `touch-target flex-1 px-4 rounded-2xl text-[10px] font-bold uppercase transition-all ${idx === 0 ? 'bg-gold text-navy shadow-lg' : 'bg-navy-dark text-white/50 hover:text-white'}`;
+                btn.className = `touch-target flex-1 px-4 rounded-2xl text-[10px] font-bold uppercase transition-all ${idx === 0 ? 'bg-gold text-navy shadow-lg' : 'bg-navy-dark text-white/50'}`;
                 btn.innerText = day.label;
                 btn.onclick = () => switchTab(idx);
                 tabs.appendChild(btn);
-
                 const div = document.createElement('div');
                 div.id = `day-${idx}`;
                 div.className = `tab-content ${idx === 0 ? 'active' : ''}`;
-                
                 day.events.forEach(ev => {
                     const mapsUrl = getMapsLink(ev.loc);
                     div.innerHTML += `
                         <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 relative w-full">
                             <div class="flex justify-between items-start mb-4">
-                                <div class="flex items-center gap-2 text-navy">
-                                    <i class="fas fa-clock text-gold text-sm"></i>
-                                    <span class="text-2xl font-black tracking-tight">${ev.time}</span>
-                                </div>
-                                <span onclick="openModal('uniformes'); event.stopPropagation();" class="uniform-badge bg-slate-50 text-slate-500 text-[10px] font-bold px-3 py-1 rounded-xl uppercase border border-slate-200">
-                                    ${ev.uni}
-                                </span>
+                                <div class="flex items-center gap-2 text-navy"><i class="fas fa-clock text-gold text-sm"></i><span class="text-2xl font-black tracking-tight">${ev.time}</span></div>
+                                <span onclick="openModal('uniformes')" class="uniform-badge bg-slate-50 text-slate-500 text-[10px] font-bold px-3 py-1 rounded-xl uppercase border border-slate-200">${ev.uni}</span>
                             </div>
                             <h4 class="font-extrabold text-slate-800 text-[20px] leading-tight mb-5 pr-12">${ev.title}</h4>
                             <div class="flex flex-col gap-3">
-                                <a href="${mapsUrl}" target="_blank" class="touch-target text-[14px] text-blue-600 font-bold inline-flex items-center gap-2.5 bg-slate-50 rounded-2xl px-4 w-fit border border-slate-100">
-                                    <i class="fas fa-location-dot text-gold"></i> ${ev.loc}
-                                </a>
-                                ${ev.flight ? `<button onclick="searchFlight('${ev.flight}')" class="touch-target w-full bg-navy text-white text-xs font-bold rounded-2xl shadow-sm active:scale-95"><i class="fas fa-plane"></i> FLIGHTAWARE: ${ev.flight}</button>` : ''}
+                                <a href="${mapsUrl}" target="_blank" class="touch-target text-[14px] text-blue-600 font-bold inline-flex items-center gap-2.5 bg-slate-50 rounded-2xl px-4 w-fit border border-slate-100"><i class="fas fa-location-dot text-gold"></i> ${ev.loc}</a>
+                                ${ev.flight ? `<button onclick="searchFlight('${ev.flight}')" class="touch-target w-full bg-navy text-white text-xs font-bold rounded-2xl shadow-sm active:scale-95 transition-transform"><i class="fas fa-plane-departure text-gold mr-2"></i> RASTREAR VOO ${ev.flight}</button>` : ''}
                             </div>
-                            <button onclick="showEventInfo('${ev.id}')" class="absolute top-14 right-6 text-gold active:text-navy p-2" title="Observações">
-                                <i class="fas fa-circle-info text-3xl"></i>
-                            </button>
+                            <button onclick="showEventInfo('${ev.id}')" class="absolute top-14 right-6 text-gold p-2 active:scale-90 transition-transform"><i class="fas fa-circle-info text-3xl"></i></button>
                         </div>`;
                 });
                 container.appendChild(div);
@@ -322,11 +298,8 @@
         }
 
         function searchFlight(code) {
-            const parts = code.split(' ');
-            let cleanCode = parts.length > 1 ? parts[parts.length - 2] + parts[parts.length - 1] : code;
-            if (code.includes("GOL G3")) cleanCode = "G3" + parts[parts.length - 1];
-            if (code.includes("LATAM LA")) cleanCode = "LA" + parts[parts.length - 1];
-            window.open(`https://pt.flightaware.com/live/flight/${cleanCode.replace(/\s/g, '')}`, '_blank');
+            const cleanCode = code.replace(/\s/g, '').toUpperCase();
+            window.open(`https://pt.flightaware.com/live/flight/${cleanCode}`, '_blank');
         }
 
         window.showEventInfo = function(eventId) {
@@ -336,19 +309,17 @@
             const modal = document.getElementById('info-modal');
             const body = document.getElementById('modal-body');
             document.getElementById('modal-title').innerText = "Programa de Eventos";
-            
             body.innerHTML = `
                 <div class="space-y-6">
                     <div class="bg-white p-5 rounded-3xl border border-slate-100 shadow-sm flex items-center justify-between">
-                        <div><p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Horário Local</p><span class="text-navy font-black text-lg"><i class="fas fa-clock text-gold mr-2"></i>${event.time}</span></div>
-                        <div class="text-right"><p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Uniforme</p><span onclick="openModal('uniformes')" class="uniform-badge bg-navy text-white px-4 py-1.5 rounded-xl font-bold text-[11px] uppercase border border-gold/30">${event.uni}</span></div>
+                        <div><p class="text-[10px] font-bold text-slate-400 uppercase mb-1 tracking-widest">Hora Local</p><span class="text-navy font-black text-lg"><i class="fas fa-clock text-gold mr-2"></i>${event.time}</span></div>
+                        <div class="text-right"><p class="text-[10px] font-bold text-slate-400 uppercase mb-1 tracking-widest">Uniforme</p><span onclick="openModal('uniformes')" class="uniform-badge bg-navy text-white px-4 py-1.5 rounded-xl font-bold text-[11px] uppercase border border-gold/30">${event.uni}</span></div>
                     </div>
                     <div><p class="text-[11px] font-bold text-slate-400 uppercase mb-2 tracking-widest">Atividade</p><p class="text-2xl font-extrabold text-navy leading-tight">${event.title}</p></div>
                     <div class="bg-white p-6 rounded-[32px] border-l-8 border-gold shadow-sm">
-                        <p class="text-[11px] font-bold text-gold uppercase mb-4 tracking-[0.2em]">Observações</p>
-                        <p class="text-[16px] leading-relaxed text-slate-700 font-medium whitespace-pre-wrap text-left">${event.desc || 'Sem observações adicionais para este evento.'}</p>
+                        <p class="text-[11px] font-bold text-gold uppercase mb-4 tracking-[0.2em]">Observações do Programa</p>
+                        <p class="text-[15px] leading-relaxed text-slate-700 font-medium whitespace-pre-wrap text-left">${event.desc || 'Sem observações registadas.'}</p>
                     </div>
-                    <a href="${getMapsLink(event.loc)}" target="_blank" class="touch-target w-full bg-navy text-white rounded-2xl text-xs font-bold uppercase gap-3 shadow-lg active:scale-95 transition-transform"><i class="fas fa-map-location-dot text-gold"></i> Abrir Localização</a>
                 </div>`;
             modal.classList.remove('hidden');
             setTimeout(() => modal.classList.add('open'), 10);
@@ -358,9 +329,7 @@
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             document.getElementById(`day-${idx}`).classList.add('active');
             const btns = document.getElementById('tab-container').children;
-            for(let i=0; i<btns.length; i++) {
-                btns[i].className = `touch-target flex-1 px-4 rounded-2xl text-[10px] font-bold uppercase transition-all whitespace-nowrap ${i === idx ? 'bg-gold text-navy shadow-lg' : 'bg-navy-dark text-white/50 hover:text-white'}`;
-            }
+            for(let i=0; i<btns.length; i++) btns[i].className = `touch-target flex-1 px-4 rounded-2xl text-[10px] font-bold uppercase transition-all ${i === idx ? 'bg-gold text-navy shadow-lg' : 'bg-navy-dark text-white/50'}`;
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -368,56 +337,27 @@
             const m = document.getElementById('info-modal');
             const body = document.getElementById('modal-body');
             let content = "";
-            
             if (type === 'uniformes') {
                 document.getElementById('modal-title').innerText = "Manual de Uniformes";
-                const unis = [
-                    { t: "OP3", img: "op3-branco.png", d: "Operativo Azul-Ferrete, com Boné Azul de Viagem." },
-                    { t: "Passeio", img: "Passeio.png", d: "Calça, camisa social (sem gravata), sapato, blazer ou paletó." },
-                    { t: "Esporte Amazônico", img: "Esporte-Amazonico.png", d: "Calça, camisa polo, sapato." }
-                ];
-                unis.forEach(u => {
-                    content += `<div class="bg-white p-5 rounded-[32px] border border-slate-100 mb-5 shadow-sm"><p class="font-extrabold text-navy mb-4 text-xs uppercase border-b pb-2 tracking-widest">${u.t}</p><img src="${u.img}" class="w-full h-80 object-contain bg-slate-50 rounded-3xl mb-4 p-2 shadow-inner"><p class="text-[15px] text-slate-600 font-medium leading-relaxed text-left">${u.d}</p></div>`;
-                });
+                const unis = [{ t: "OP3", img: "op3-branco.png", d: "Uniforme Operativo Azul-Ferrete." }, { t: "Passeio", img: "Passeio.png", d: "Calça, camisa social (sem gravata), blazer." }, { t: "Esporte Amazônico", img: "Esporte-Amazonico.png", d: "Calça, camisa polo, sapato." }];
+                unis.forEach(u => content += `<div class="bg-white p-5 rounded-[32px] border border-slate-100 mb-5 shadow-sm"><p class="font-extrabold text-navy mb-4 text-xs uppercase border-b pb-2 tracking-widest">${u.t}</p><img src="${u.img}" class="w-full h-80 object-contain bg-slate-50 rounded-3xl mb-4 p-2 shadow-inner"><p class="text-[15px] text-slate-600 font-medium text-left">${u.d}</p></div>`);
             } else if (type === 'telefones') {
                 document.getElementById('modal-title').innerText = "Diretório de Contatos";
                 content = `<div class="bg-white rounded-[32px] border border-slate-100 overflow-hidden shadow-sm">`;
                 logistics.contatos.forEach(t => {
                     if (t.superHeader) content += `<div class="bg-navy p-5 text-gold text-center font-extrabold text-xs uppercase tracking-[0.3em]">${t.superHeader}</div>`;
                     else if (t.header) content += `<div class="bg-slate-50 p-2 pl-6 text-navy font-bold text-[10px] uppercase border-y tracking-wider">${t.header}</div>`;
-                    else content += `<div class="p-5 border-b border-slate-50 flex justify-between items-center bg-white active:bg-slate-50 transition-colors"><div class="flex-grow pr-4"><p class="font-bold text-[16px] text-slate-800 uppercase tracking-tight leading-tight">${t.name}</p><p class="text-[11px] text-slate-400 font-bold uppercase mt-1 leading-none">${t.role}</p></div><div class="flex gap-2"><a href="tel:${t.phone.replace(/\D/g,'')}" class="touch-target bg-slate-100 text-navy p-4 rounded-full w-14 h-14 shadow-sm border border-slate-200"><i class="fas fa-phone-alt"></i></a><a href="https://wa.me/55${t.phone.replace(/\D/g,'')}" target="_blank" class="touch-target bg-emerald-500 text-white p-4 rounded-full w-14 h-14 shadow-md"><i class="fab fa-whatsapp"></i></a></div></div>`;
+                    else content += `<div class="p-5 border-b border-slate-50 flex justify-between items-center bg-white active:bg-slate-100 transition-colors"><div class="flex-grow pr-4"><p class="font-bold text-[16px] text-slate-800 uppercase tracking-tight leading-tight">${t.name}</p><p class="text-[11px] text-slate-400 font-bold uppercase mt-1 leading-none">${t.role}</p></div><div class="flex gap-2"><a href="tel:${t.phone.replace(/\D/g,'')}" class="touch-target bg-slate-100 text-navy p-4 rounded-full w-14 h-14 shadow-sm border border-slate-200"><i class="fas fa-phone-alt"></i></a><a href="https://wa.me/55${t.phone.replace(/\D/g,'')}" target="_blank" class="touch-target bg-emerald-500 text-white p-4 rounded-full w-14 h-14 shadow-md"><i class="fab fa-whatsapp"></i></a></div></div>`;
                 });
                 content += "</div>";
             } else if (type === 'comitivas') {
                 document.getElementById('modal-title').innerText = "Hóspedes e Estadia";
-                logistics.hospedes.forEach(h => {
-                    content += `<div class="bg-white p-6 rounded-[24px] border border-slate-100 mb-4 shadow-sm flex justify-between items-center group active:scale-[0.98] transition-transform"><div><p class="font-bold text-navy text-base uppercase">${h.n}</p><p class="text-[11px] text-slate-400 font-bold uppercase mt-1 tracking-tighter leading-tight">${h.f}</p><div class="mt-4 flex items-center gap-2 text-[12px] font-bold uppercase text-gold"><i class="fas fa-hotel"></i> ${h.l}</div></div><span class="bg-navy text-gold text-[10px] font-black px-2 py-4 rounded-xl uppercase tracking-widest [writing-mode:vertical-lr] border border-gold/30">${h.p}</span></div>`;
-                });
+                logistics.hospedes.forEach(h => content += `<div class="bg-white p-6 rounded-[24px] border border-slate-100 mb-4 shadow-sm flex justify-between items-center group active:scale-[0.98] transition-transform"><div><p class="font-bold text-navy text-base uppercase">${h.n}</p><p class="text-[11px] text-slate-400 font-bold uppercase mt-1 tracking-tighter leading-tight">${h.f}</p><div class="mt-4 flex items-center gap-2 text-[12px] font-bold uppercase text-gold"><i class="fas fa-hotel"></i> ${h.l}</div></div><span class="bg-navy text-gold text-[10px] font-black px-2 py-4 rounded-xl uppercase tracking-widest [writing-mode:vertical-lr] border border-gold/30">${h.p}</span></div>`);
             } else if (type === 'motoristas' || type === 'autoridades') {
-                document.getElementById('modal-title').innerText = type === 'motoristas' ? "Logística de Viaturas" : "Autoridades Atendidas";
+                document.getElementById('modal-title').innerText = "Logística de Viaturas";
                 logistics.vtrs.forEach(v => {
                     const label = v.auth.toUpperCase().includes("COMITIVA") ? "Apoio à" : "Apoio ao";
-                    content += `
-                        <div class="bg-white p-6 rounded-[32px] border border-slate-100 mb-5 shadow-sm border-l-[10px] border-gold">
-                            <p class="text-[10px] font-extrabold text-navy/40 uppercase tracking-widest mb-1">${label}</p>
-                            <p class="text-base font-extrabold text-navy uppercase mb-5">${v.auth}</p>
-                            <div class="bg-slate-50 p-5 rounded-[24px] mb-6 border border-slate-100">
-                                <p class="text-[10px] font-bold text-slate-400 uppercase mb-2">Motorista Responsável</p>
-                                <p class="text-lg font-bold text-slate-800 uppercase underline decoration-gold/50 underline-offset-8">${v.mot}</p>
-                                <div class="mt-4">
-                                    <p class="text-[12px] text-navy font-bold flex items-center gap-3">
-                                        <i class="fas fa-car-side"></i> ${v.model}
-                                    </p>
-                                    <p class="text-[12px] text-navy font-bold mt-1 ml-6 uppercase">
-                                        Placa: ${v.plate}
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="flex gap-3">
-                                <a href="tel:${v.tel.replace(/\D/g,'')}" class="touch-target flex-1 bg-navy text-white text-xs font-bold rounded-2xl border border-gold/20"><i class="fas fa-phone-alt mr-2 text-gold"></i> Ligar</a>
-                                <a href="https://wa.me/55${v.tel.replace(/\D/g,'')}" target="_blank" class="touch-target flex-1 bg-emerald-600 text-white text-xs font-bold rounded-2xl shadow-md"><i class="fab fa-whatsapp mr-2"></i> Mensagem</a>
-                            </div>
-                        </div>`;
+                    content += `<div class="bg-white p-6 rounded-[32px] border border-slate-100 mb-5 shadow-sm border-l-[10px] border-gold"><p class="text-[10px] font-extrabold text-navy/40 uppercase tracking-widest mb-1">${label}</p><p class="text-base font-extrabold text-navy uppercase mb-5">${v.auth}</p><div class="bg-slate-50 p-5 rounded-[24px] mb-6 border border-slate-100"><p class="text-[10px] font-bold text-slate-400 uppercase mb-2">Motorista Responsável</p><p class="text-lg font-bold text-slate-800 uppercase underline decoration-gold/50 underline-offset-8">${v.mot}</p><div class="mt-4"><p class="text-[13px] text-navy font-bold flex items-center gap-3"><i class="fas fa-car-side"></i> ${v.model}</p><p class="text-[13px] text-navy font-bold mt-1 pl-6.5 uppercase">Placa: ${v.plate}</p></div></div><div class="flex gap-3"><a href="tel:${v.tel.replace(/\D/g,'')}" class="touch-target flex-1 bg-navy text-white text-xs font-bold rounded-2xl shadow-sm"><i class="fas fa-phone-alt mr-2 text-gold"></i> Chamar</a><a href="https://wa.me/55${v.tel.replace(/\D/g,'')}" target="_blank" class="touch-target flex-1 bg-emerald-600 text-white text-xs font-bold rounded-2xl shadow-md"><i class="fab fa-whatsapp mr-2 text-gold"></i> WhatsApp</a></div></div>`;
                 });
             }
             body.innerHTML = content;
@@ -425,11 +365,7 @@
             setTimeout(() => m.classList.add('open'), 10);
         }
 
-        function closeModal() {
-            const m = document.getElementById('info-modal');
-            m.classList.remove('open');
-            setTimeout(() => m.classList.add('hidden'), 300);
-        }
+        function closeModal() { const m = document.getElementById('info-modal'); m.classList.remove('open'); setTimeout(() => m.classList.add('hidden'), 300); }
 
         function updateIndicator() {
             document.querySelectorAll('.current-time-line').forEach(l => l.remove());
@@ -443,8 +379,7 @@
                 if(!timeEl) return;
                 const match = timeEl.innerText.match(/(\d+)h(\d*)/);
                 if(!match) return;
-                const h = parseInt(match[1]);
-                const m = parseInt(match[2] || 0);
+                const h = parseInt(match[1]), m = parseInt(match[2] || 0);
                 if(!added && timeVal < (h*60 + m)) {
                     card.insertAdjacentHTML('beforebegin', `<div class="current-time-line"><div class="current-time-dot"></div><span class="current-time-label uppercase tracking-tighter">AGORA (${now.getHours()}h${String(now.getMinutes()).padStart(2,'0')})</span></div>`);
                     added = true;
