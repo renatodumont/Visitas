@@ -125,16 +125,13 @@
         // --- FUNÇÕES GEOGRÁFICAS ---
         function getMapsLink(loc) {
             const l = loc.toLowerCase();
-            if (l.includes("nas")) {
-                return "https://maps.app.goo.gl/3aaGjB8rjDUegxqt5";
-            } else if (l.includes("auditório portal da amazônia")) {
-                return "https://maps.app.goo.gl/QiEJStvB5CSSvxsY6?g_st=ac";
-            } else if (l.includes("residência funcional do cem") || l.includes("residência cem")) {
+            if (l.includes("nas")) return "https://maps.app.goo.gl/3aaGjB8rjDUegxqt5";
+            if (l.includes("auditório portal da amazônia")) return "https://maps.app.goo.gl/QiEJStvB5CSSvxsY6?g_st=ac";
+            if (l.includes("residência funcional do cem") || l.includes("residência cem")) {
                 return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("Rua Almirante Dantas Torres, 9, Val de Cães, Belém-PA")}`;
-            } else if (l.includes("salão nobre")) {
+            }
+            if (l.includes("salão nobre")) {
                 return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("Comando do 4° Distrito Naval, Belém-PA")}`;
-            } else if (l.includes("aeroporto")) {
-                return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("Aeroporto Internacional de Belém - Júlio Cezar Ribeiro")}`;
             }
             return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(loc + ", Belém-PA")}`;
         }
@@ -164,15 +161,15 @@
                 { id: "e16", time: "07:15", title: "Recepção Comitiva no ARES Veleiro", loc: "Vila Naval Veleiro", uni: "OP3/Passeio", desc: "Participantes: V Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-04, CGS, BNVC-01, 2°BtlopRib-01 e Comitiva da AMN." },
                 { id: "e17", time: "07:30", title: "Café da Manhã", loc: "Vila Naval Veleiro", uni: "OP3/Passeio", desc: "Participantes: V Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-04, CGS, BNVC-01, 2°BtlopRib-01 e Comitiva da AMN." },
                 { id: "e18", time: "08:30", title: "Visita Instalações ARES-Veleiro e HT", loc: "Vila Naval Veleiro", uni: "OP3/Passeio", desc: "Participantes: V Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-04, CGS, BNVC-01, 2°BtlopRib-01, Comitiva da AMN e Supervisor do ARES-Veleiro." },
-                { id: "e19", time: "09:30", title: "Visita ao ARES-Clube Naval Albatroz", loc: "Vila Naval Albatroz", uni: "OP3/Passeio", desc: "Participantes: V Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-04, CGS, 2°BtlopRib-01, Comitiva da AMN e Supervisor do ARES-Albatroz." },
-                { id: "e20", time: "10:30", title: "Visita ao ARES-Clube Naval Espadarte", loc: "Vila Naval Espadarte", uni: "OP3/Passeio", desc: "Participantes: V Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-04, CGS, BNVC-01, Comitiva da AMN e Supervisor do ARES-Espadarte." },
+                { id: "e19", time: "09:30", title: "Visita ao ARES-Albatroz", loc: "Vila Naval Albatroz", uni: "OP3/Passeio", desc: "Participantes: V Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-04, CGS, 2°BtlopRib-01, Comitiva da AMN e Supervisor do ARES-Albatroz." },
+                { id: "e20", time: "10:30", title: "Visita ao ARES-Espadarte", loc: "Vila Naval Espadarte", uni: "OP3/Passeio", desc: "Participantes: V Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-04, CGS, BNVC-01, Comitiva da AMN e Supervisor do ARES-Espadarte." },
                 { id: "e21", time: "12:00", title: "Almoço", loc: "Residência CEM-Com4ºDN", uni: "OP3/Passeio", desc: "Participantes: V Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-02.1, DN-04, CGS, BNVC-01 e 2°BtlopRib-01." },
                 { id: "e22", time: "13:30", title: "Visita ao CIABA", loc: "CIABA", uni: "OP3/Passeio", desc: "Participantes: V Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-02.1, DN-04 e CGS." },
                 { id: "e23", time: "17:00", title: "Ida à Estação das Docas", loc: "Estação das Docas", uni: "Esporte Amazônico", desc: "Participantes: V Alte (RM1-FN) ROSSATTO, C Alte LEONARDO VIANNA, DN-02, DN-02.1, DN-04 e CGS." }
             ]},
             { label: "07 MAR", date: "2026-03-07", events: [
-                { id: "e24", time: "05:00", title: "Retorno V Alte (RM1-FN) ROSSATTO", loc: "Aeroporto de Belém", uni: "OP3/Passeio", flight: "GOL G3 1728", desc: "Participantes: DN-02, DN-04 e DN-02.1." },
-                { id: "e25", time: "05:00", title: "Retorno C Alte LEONARDO VIANNA", loc: "Aeroporto de Belém", uni: "OP3/Passeio", flight: "LATAM LA3229", desc: "Participantes: DN-02, DN-04 e DN-02.1." }
+                { id: "e24", time: "05:00", title: "Retorno V Alte ROSSATTO", loc: "Aeroporto", uni: "OP3/Passeio", flight: "GOL G3 1728" },
+                { id: "e25", time: "05:00", title: "Retorno C Alte LEONARDO VIANNA", loc: "Aeroporto", uni: "OP3/Passeio", flight: "LATAM LA3229" }
             ]}
         ];
 
@@ -185,7 +182,33 @@
             ],
             hospedes: [
                 { nome: "V Alte (RM1-FN) ROSSATTO", cargo: "Presidente Conselho Deliberativo AMN", local: "Residência Funcional do CEM", periodo: "04 a 07 MAR" },
-                { nome: "C Alte LEONARDO VIANNA", cargo: "Diretor DASM / Diretor Geral AMN", local: "Residência Funcional do CEM", periodo: "04 a 07 MAR" }
+                { nome: "C Alte LEONARDO VIANNA", cargo: "Diretor DASM / Diretor Geral AMN", local: "Residência Funcional do CEM", periodo: "04 a 07 MAR" },
+                { nome: "CMG (RM1 IM) ÁTILA LIMA", cargo: "AMN - Assessor Compliance", local: "Hotel Grão Pará", periodo: "03 a 07 MAR" },
+                { nome: "CC (T) JUAN FELIPE ALVES", cargo: "AMN - Enc. Planejamento", local: "HT-COM4DN", periodo: "03 a 07 MAR" },
+                { nome: "CT (IM) MARCELLO DE PAULA", cargo: "AMN - Enc. Intendência", local: "HT-COM4DN", periodo: "03 a 07 MAR" },
+                { nome: "1°Ten (T) MARCIO COSTA", cargo: "AMN - Enc. Estudos", local: "HT-COM4DN", periodo: "03 a 07 MAR" },
+                { nome: "DR. WAGNER JANSEN", cargo: "AMN - Advogado", local: "Hotel Grão Pará", periodo: "03 a 07 MAR" },
+                { nome: "SRA. IRIS CARVALHO", cargo: "AMN - Contadora", local: "Hotel Grão Pará", periodo: "03 a 07 MAR" },
+                { nome: "SR. JEFFERSON DANTAS", cargo: "AMN - Administrador", local: "Hotel Grão Pará", periodo: "03 a 07 MAR" }
+            ],
+            contatos: [
+                { superHeader: "Com4ºDN" },
+                { name: "V Alte ADRIANO BATISTA", phone: "91982660201", role: "Comandante" },
+                { name: "C Alte JOSÉ FABIO", phone: "91982660233", role: "CEM-Com4ºDN" },
+                { name: "CT CURA", phone: "91981250005", role: "Assistente Com4°DN" },
+                { name: "CT (AA) FRANCO", phone: "91982660283", role: "Ajudante de Ordens" },
+                { name: "1° Ten (AA) RENATO MENDES", phone: "91982660275", role: "Assistente do CEM" },
+                { header: "Oficiais de Serviço" },
+                { name: "OSP - Com4ºDN", phone: "91982660154", role: "Telefone Funcional" },
+                { name: "OSE - Com4ºDN", phone: "91982660328", role: "Telefone Funcional" },
+                { superHeader: "Titulares de OM" },
+                { name: "CMG (Md) JAIME", phone: "91991854662", role: "HNBe" },
+                { name: "CMG (IM) HERMES", phone: "91982660202", role: "CEIMBE" },
+                { name: "CMG ROVERE", phone: "91982660312", role: "CIABA" },
+                { name: "CMG DANIEL JUNIOR", phone: "91993491643", role: "BNVC" },
+                { name: "CMG BARROS", phone: "91981255555", role: "ComGptPatNavN" },
+                { name: "CMG PIMENTEL", phone: "91982660009", role: "CPAOR" },
+                { name: "CF (FN) LUCIANO", phone: "91982660123", role: "2°BtlOpRib" }
             ]
         };
 
@@ -215,16 +238,24 @@
                                 <i class="fas fa-map-marker-alt text-red-500"></i> ${ev.loc}
                             </a>
                             <button onclick="showEventInfo('${ev.id}')" class="absolute bottom-4 right-4 text-[#FFD700] hover:text-yellow-600 transition p-1"><i class="fas fa-info-circle text-2xl"></i></button>
-                            ${ev.flight ? `<button onclick="searchFlight('${ev.flight}')" class="w-[calc(100%-40px)] mt-3 bg-blue-900 text-white text-[9px] font-black py-2.5 rounded-lg flex items-center justify-center gap-2"><i class="fas fa-plane"></i> CONSULTAR VOO ${ev.flight}</button>` : ''}
+                            ${ev.flight ? `<button onclick="searchFlight('${ev.flight}')" class="w-[calc(100%-40px)] mt-3 bg-blue-900 text-white text-[9px] font-black py-2.5 rounded-lg flex items-center justify-center gap-2"><i class="fas fa-plane"></i> STATUS EM TEMPO REAL: ${ev.flight}</button>` : ''}
                         </div>`;
                 });
                 container.appendChild(div);
             });
             updateIndicator();
+            setInterval(updateIndicator, 60000);
         }
 
+        // Função para rastreamento direto no FlightAware
         function searchFlight(code) {
-            window.open(`https://www.google.com/search?q=${encodeURIComponent('voo ' + code + ' status')}`, '_blank');
+            // Limpa o código (ex: GOL G3 1778 -> G31778)
+            const parts = code.split(' ');
+            let cleanCode = parts.length > 1 ? parts[parts.length - 2] + parts[parts.length - 1] : code;
+            if (code.includes("GOL G3")) cleanCode = "G3" + parts[parts.length - 1];
+            if (code.includes("LATAM LA")) cleanCode = "LA" + parts[parts.length - 1];
+            
+            window.open(`https://pt.flightaware.com/live/flight/${cleanCode.replace(/\s/g, '')}`, '_blank');
         }
 
         window.showEventInfo = function(eventId) {
@@ -255,6 +286,7 @@
             const m = document.getElementById('info-modal');
             const body = document.getElementById('modal-body');
             let content = "";
+            
             if (type === 'uniformes') {
                 document.getElementById('modal-title').innerText = "Uniformes VISITEC-DASM";
                 const unis = [
@@ -266,17 +298,62 @@
                     const imgClass = u.special ? "object-contain bg-gray-50 p-2" : "object-cover object-top";
                     content += `<div class="bg-white p-3 rounded-xl border mb-3 shadow-md"><p class="font-black text-blue-900 mb-2 text-xs uppercase tracking-widest border-b pb-1">${u.t}</p><img src="${u.img}" class="w-full h-80 ${imgClass} rounded mb-2 shadow-inner"><p class="text-[10px] text-gray-500 leading-tight font-bold italic">${u.d}</p></div>`;
                 });
-            } else if (type === 'motoristas') {
-                document.getElementById('modal-title').innerText = "Logística de Viaturas";
+            } else if (type === 'motoristas' || type === 'autoridades') {
+                document.getElementById('modal-title').innerText = type === 'motoristas' ? "Logística de Viaturas" : "Autoridades";
                 logistics.vtrs.forEach(v => {
-                    content += `<div class="bg-white p-4 rounded-xl border mb-3 shadow-lg"><div class="flex justify-between items-start mb-2 border-b pb-2"><span class="text-[10px] font-black text-blue-900 uppercase tracking-tighter flex items-center gap-2"><i class="fas fa-user text-[#FFD700]"></i> ${v.auth}</span></div><p class="text-sm font-black text-blue-900 uppercase mb-1 underline decoration-[#FFD700] decoration-2 underline-offset-4 tracking-tighter">${v.mot}</p><p class="text-[10px] text-gray-500 font-bold mb-3 italic uppercase flex items-center gap-1"><i class="fas fa-car-side text-blue-900"></i> ${v.model} <span class="text-gray-400 font-bold ml-1 tracking-widest">Placa: ${v.plate}</span></p><p class="text-[9px] text-gray-400 font-medium mb-3 flex items-center gap-1"><i class="fas fa-hotel"></i> ${v.hosp}</p><div class="flex gap-2"><a href="tel:${v.tel}" class="flex-1 bg-blue-600 text-white text-[10px] font-bold py-2.5 rounded-lg flex items-center justify-center gap-2 shadow-md transition hover:bg-blue-700"><i class="fas fa-phone-alt"></i> CHAMAR</a><a href="https://wa.me/55${v.tel.replace(/\D/g,'')}" target="_blank" class="flex-1 bg-green-500 text-white text-[10px] font-bold py-2.5 rounded-lg flex items-center justify-center gap-2 shadow-md transition hover:bg-green-600"><i class="fab fa-whatsapp"></i> WHATSAPP</a></div></div>`;
+                    content += `
+                        <div class="bg-white p-4 rounded-xl border mb-3 shadow-lg border-l-4 border-blue-900">
+                            <div class="flex justify-between items-start mb-2 border-b pb-2">
+                                <span class="text-[10px] font-black text-blue-900 uppercase tracking-tighter flex items-center gap-2">
+                                    <i class="fas fa-user text-[#FFD700]"></i> ${v.auth}
+                                </span>
+                            </div>
+                            <p class="text-sm font-black text-blue-900 uppercase mb-1 underline decoration-[#FFD700] decoration-2 underline-offset-4 tracking-tighter">${v.mot}</p>
+                            <p class="text-[10px] text-gray-500 font-bold mb-3 italic uppercase flex items-center gap-1">
+                                <i class="fas fa-car-side text-blue-900"></i> ${v.model} <span class="text-gray-400 font-bold ml-1 tracking-widest">Placa: ${v.plate}</span>
+                            </p>
+                            <p class="text-[9px] text-gray-400 font-medium mb-3 flex items-center gap-1"><i class="fas fa-hotel"></i> ${v.hosp}</p>
+                            <div class="flex gap-2">
+                                <a href="tel:${v.tel.replace(/\D/g,'')}" class="flex-1 bg-blue-600 text-white text-[10px] font-bold py-2.5 rounded-lg flex items-center justify-center gap-2 shadow-md transition hover:bg-blue-700"><i class="fas fa-phone-alt"></i> CHAMAR</a>
+                                <a href="https://wa.me/55${v.tel.replace(/\D/g,'')}" target="_blank" class="flex-1 bg-green-500 text-white text-[10px] font-bold py-2.5 rounded-lg flex items-center justify-center gap-2 shadow-md transition hover:bg-green-600"><i class="fab fa-whatsapp"></i> WHATSAPP</a>
+                            </div>
+                        </div>`;
                 });
-            } else if (type === 'autoridades') {
-                document.getElementById('modal-title').innerText = "Autoridades & Logística";
-                logistics.vtrs.forEach(a => {
-                    content += `<div class="bg-white p-4 rounded-xl border mb-3 shadow-md border-t-4 border-blue-900"><p class="font-black text-blue-900 text-sm mb-1 uppercase">${a.auth}</p><div class="space-y-2 mt-3"><div class="flex items-start justify-between bg-gray-50 p-2 rounded border border-gray-100"><div class="flex-grow"><p class="text-[8px] font-bold text-gray-400 uppercase tracking-tighter">Motorista Responsável</p><p class="text-xs font-black text-gray-800 uppercase underline decoration-[#FFD700] decoration-2 underline-offset-4">${a.mot}</p></div><div class="flex gap-2 ml-2"><a href="tel:${a.tel}" class="bg-blue-100 text-blue-700 p-2 rounded-full flex items-center justify-center w-8 h-8 transition hover:bg-blue-200 shadow-sm"><i class="fas fa-phone-alt text-xs"></i></a><a href="https://wa.me/55${a.tel.replace(/\D/g,'')}" target="_blank" class="bg-green-500 text-white p-2 rounded-full shadow-md flex items-center justify-center w-8 h-8 transition hover:bg-green-600"><i class="fab fa-whatsapp"></i> WHATSAPP</a></div></div><div class="text-[10px] text-gray-600 font-medium space-y-1"><p class="flex items-center"><i class="fas fa-car mr-2 text-blue-900 w-4 text-center"></i><span class="mr-1 font-bold">VTR:</span> ${a.model} [${a.plate}]</p><p class="flex items-center"><i class="fas fa-hotel mr-2 text-blue-900 w-4 text-center"></i><span class="mr-1 font-bold">Hospedagem:</span> ${a.hosp}</p></div></div></div>`;
+            } else if (type === 'comitivas') {
+                document.getElementById('modal-title').innerText = "Controle de Hospedagens";
+                logistics.hospedes.forEach(h => {
+                    content += `
+                        <div class="bg-white p-3 rounded-xl border mb-2 shadow-sm border-l-4 border-blue-900">
+                            <p class="font-black text-blue-900 text-[11px] leading-tight uppercase tracking-tight">${h.nome}</p>
+                            <p class="text-[9px] text-gray-500 uppercase font-bold leading-tight mt-0.5">${h.cargo}</p>
+                            <div class="mt-2 pt-2 border-t border-gray-100 flex justify-between items-center text-[10px] text-gray-600 font-bold">
+                                <span><i class="fas fa-bed mr-1 opacity-40"></i>${h.local}</span>
+                                <span class="text-blue-800 uppercase tracking-tighter">${h.periodo}</span>
+                            </div>
+                        </div>`;
                 });
+            } else if (type === 'telefones') {
+                document.getElementById('modal-title').innerText = "Contatos";
+                content = `<div class="bg-white rounded-xl border overflow-hidden shadow-inner">`;
+                logistics.contatos.forEach(t => {
+                    if (t.superHeader) {
+                        content += `<div class="bg-blue-900 p-2 text-white text-center font-bold text-[10px] uppercase tracking-widest shadow-md">${t.superHeader}</div>`;
+                    } else if (t.header) {
+                        content += `<div class="bg-gray-100 p-1.5 pl-4 text-blue-900 font-black text-[9px] uppercase border-y tracking-wider">${t.header}</div>`;
+                    } else {
+                        content += `
+                            <div class="p-3 border-b flex justify-between items-center last:border-0 bg-white">
+                                <div><p class="font-black text-xs text-gray-800 uppercase tracking-tighter">${t.name}</p><p class="text-[9px] text-gray-400 font-bold uppercase">${t.role}</p></div>
+                                <div class="flex gap-2">
+                                    <a href="tel:${t.phone.replace(/\D/g,'')}" class="bg-blue-50 text-blue-600 p-2 rounded-full flex items-center justify-center w-8 h-8 shadow-sm transition hover:bg-blue-100"><i class="fas fa-phone text-xs"></i></a>
+                                    <a href="https://wa.me/55${t.phone.replace(/\D/g,'')}" target="_blank" class="bg-green-500 text-white p-2 rounded-full flex items-center justify-center w-8 h-8 shadow-md transition hover:bg-green-600"><i class="fab fa-whatsapp text-sm"></i></a>
+                                </div>
+                            </div>`;
+                    }
+                });
+                content += "</div>";
             }
+            
             body.innerHTML = content;
             m.classList.remove('hidden');
             setTimeout(() => m.classList.add('open'), 10);
