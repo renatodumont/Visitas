@@ -267,7 +267,7 @@
                 { n: "CMG (RM1 IM) Átila Lima", f: "Assessor Compliance AMN", l: "Hotel Grão Pará", p: "03 a 07 MAR" },
                 { n: "CC (T) Juan Felipe Alves", f: "Encarregado Planejamento", l: "HT-COM4DN", p: "03 a 07 MAR" },
                 { n: "CT (IM) Marcello Silva", f: "Encarregado Intendência", l: "HT-COM4DN", p: "03 a 07 MAR" },
-                { n: "1°Ten (T) Marcio Costa", f: "Encarregado Seção Estudos", l: "HT-COM4DN", p: "03 a 07 MAR" },
+                { n: "1°Ten (T) Marcio Costa", f: "Encarregado Seção de Estudos", l: "HT-COM4DN", p: "03 a 07 MAR" },
                 { n: "Dr. Wagner Jansen", f: "Advogado AMN", l: "Hotel Grão Pará", p: "03 a 07 MAR" },
                 { n: "Sra. Iris Carvalho", f: "Contadora AMN", l: "Hotel Grão Pará", p: "03 a 07 MAR" },
                 { n: "Sr. Jefferson Dantas", f: "Administrador AMN", l: "Hotel Grão Pará", p: "03 a 07 MAR" }
@@ -293,16 +293,15 @@
             const tabs = document.getElementById('tab-container');
             const container = document.getElementById('events-container');
             
-            // Detectar dia atual para abrir a aba correta
+            // Detectar dia atual para abrir aba automática
             const now = new Date();
             const year = now.getFullYear();
             const month = String(now.getMonth() + 1).padStart(2, '0');
             const dayNum = String(now.getDate()).padStart(2, '0');
-            const todayISO = `${year}-${month}-${dayNum}`;
+            const todayFormatted = `${year}-${month}-${dayNum}`;
 
-            // Encontrar índice do dia de hoje
-            let initialIdx = schedule.findIndex(s => s.date === todayISO);
-            if (initialIdx === -1) initialIdx = 0; // Se não estiver no período do evento, abre o primeiro dia
+            let initialIdx = schedule.findIndex(s => s.date === todayFormatted);
+            if (initialIdx === -1) initialIdx = 0;
 
             schedule.forEach((day, idx) => {
                 const btn = document.createElement('button');
@@ -355,6 +354,35 @@
                 speakerHTML = `<div class="text-center font-bold mb-4 text-navy">Palestrante: ${event.speaker}</div><div class="w-full border-b border-slate-100 mb-4"></div>`;
             }
 
+            // Lógica para transformar TUDO após os dois-pontos (":") em lista
+            let finalOutputHtml = "";
+            const rawDesc = event.desc || 'Informações oficiais.';
+            
+            if (rawDesc.includes(':')) {
+                // Dividimos no primeiro ':'
+                const colonIndex = rawDesc.indexOf(':');
+                const label = rawDesc.substring(0, colonIndex).trim();
+                const namesPart = rawDesc.substring(colonIndex + 1).trim();
+
+                // Processar os nomes (separados por vírgula ou pelo " e ")
+                const listItems = namesPart
+                    .replace(/ e /g, ',') // Padroniza o separador final
+                    .split(',')
+                    .map(name => name.trim().replace(/\.$/, "")) // Limpa espaços e pontos finais
+                    .filter(name => name.length > 0)
+                    .map(name => `<li class="ml-4 list-disc">${name}</li>`)
+                    .join('');
+
+                finalOutputHtml = `
+                    <p class="font-bold mb-2 text-left">${label}:</p>
+                    <ul class="space-y-1.5 text-left">
+                        ${listItems}
+                    </ul>
+                `;
+            } else {
+                finalOutputHtml = `<p class="text-[15px] leading-relaxed text-slate-700 font-medium text-left">${rawDesc}</p>`;
+            }
+
             body.innerHTML = `
                 <div class="space-y-6">
                     <div class="bg-white p-5 rounded-3xl border border-slate-100 shadow-sm flex justify-between">
@@ -365,7 +393,9 @@
                     <div class="bg-white p-6 rounded-[32px] border-l-8 border-gold shadow-sm">
                         <p class="text-[11px] font-bold text-gold uppercase mb-4 tracking-widest text-left">Observações Integrais</p>
                         ${speakerHTML}
-                        <p class="text-[15px] leading-relaxed text-slate-700 font-medium whitespace-pre-wrap text-left">${event.desc || 'Informações oficiais conforme Programa VISITEC-DASM.'}</p>
+                        <div class="text-[15px] leading-relaxed text-slate-700 font-medium text-left">
+                            ${finalOutputHtml}
+                        </div>
                     </div>
                 </div>`;
             modal.classList.remove('hidden');
@@ -395,30 +425,30 @@
                 logistics.contatos.forEach(t => {
                     if (t.superHeader) content += `<div class="bg-navy p-5 text-gold text-center font-extrabold text-xs uppercase tracking-[0.3em]">${t.superHeader}</div>`;
                     else if (t.header) content += `<div class="bg-slate-50 p-2 pl-6 text-navy font-bold text-[10px] uppercase border-y tracking-wider text-left">${t.header}</div>`;
-                    else content += `<div class="p-5 border-b border-slate-50 flex justify-between items-center bg-white"><div class="flex-grow pr-4"><p class="font-bold text-base text-slate-800 uppercase leading-tight text-left text-left">${t.name}</p><p class="text-[11px] text-slate-400 font-bold uppercase mt-1 text-left text-left">${t.role}</p></div><div class="flex gap-2"><a href="tel:${t.phone.replace(/\D/g,'')}" class="touch-target bg-slate-100 text-navy p-4 rounded-full w-14 h-14"><i class="fas fa-phone-alt"></i></a><a href="https://wa.me/55${t.phone.replace(/\D/g,'')}" target="_blank" class="touch-target bg-emerald-500 text-white p-4 rounded-full w-14 h-14 shadow-md"><i class="fab fa-whatsapp"></i></a></div></div>`;
+                    else content += `<div class="p-5 border-b border-slate-50 flex justify-between items-center bg-white"><div class="flex-grow pr-4"><p class="font-bold text-base text-slate-800 uppercase leading-tight text-left text-left">${t.name}</p><p class="text-[11px] text-slate-400 font-bold uppercase mt-1 text-left text-left text-left">${t.role}</p></div><div class="flex gap-2"><a href="tel:${t.phone.replace(/\D/g,'')}" class="touch-target bg-slate-100 text-navy p-4 rounded-full w-14 h-14"><i class="fas fa-phone-alt"></i></a><a href="https://wa.me/55${t.phone.replace(/\D/g,'')}" target="_blank" class="touch-target bg-emerald-500 text-white p-4 rounded-full w-14 h-14 shadow-md"><i class="fab fa-whatsapp"></i></a></div></div>`;
                 });
                 content += "</div>";
             } else if (type === 'comitivas') {
                 document.getElementById('modal-title').innerText = "Hóspedes e Estadia";
-                logistics.hospedes.forEach(h => content += `<div class="bg-white p-6 rounded-[24px] border border-slate-100 mb-4 shadow-sm flex justify-between items-center group active:scale-[0.98] transition-transform"><div><p class="font-bold text-navy text-base uppercase leading-tight text-left text-left">${h.n}</p><p class="text-[11px] text-slate-400 font-bold uppercase mt-1 tracking-tighter leading-tight text-left text-left text-left text-left text-left">${h.f}</p><div class="mt-4 flex items-center gap-2 text-[12px] font-bold uppercase text-gold"><i class="fas fa-hotel"></i> ${h.l}</div></div><span class="bg-navy text-gold text-[10px] font-black px-2 py-4 rounded-xl uppercase tracking-widest [writing-mode:vertical-lr] border border-gold/30">${h.p}</span></div>`);
+                logistics.hospedes.forEach(h => content += `<div class="bg-white p-6 rounded-[24px] border border-slate-100 mb-4 shadow-sm flex justify-between items-center group active:scale-[0.98] transition-transform"><div><p class="font-bold text-navy text-base uppercase leading-tight text-left text-left text-left">${h.n}</p><p class="text-[11px] text-slate-400 font-bold uppercase mt-1 tracking-tighter leading-tight text-left text-left text-left text-left text-left text-left text-left">${h.f}</p><div class="mt-4 flex items-center gap-2 text-[12px] font-bold uppercase text-gold text-left"><i class="fas fa-hotel"></i> ${h.l}</div></div><span class="bg-navy text-gold text-[10px] font-black px-2 py-4 rounded-xl uppercase tracking-widest [writing-mode:vertical-lr] border border-gold/30">${h.p}</span></div>`);
             } else if (type === 'autoridades') {
                 document.getElementById('modal-title').innerText = "Informações Consolidadas";
                 logistics.vtrs.forEach(v => {
                     const label = v.auth.toUpperCase().includes("COMITIVA") ? "Apoio à" : "Apoio ao";
                     content += `
-                        <div class="bg-white p-6 rounded-[32px] border border-slate-100 mb-5 shadow-sm border-l-[10px] border-gold text-left text-left">
-                            <p class="text-[10px] font-extrabold text-navy/40 uppercase tracking-widest mb-1 text-left text-left text-left">${label}</p>
-                            <p class="text-base font-extrabold text-navy uppercase mb-5 text-left text-left text-left">${v.auth}</p>
-                            <div class="bg-slate-50 p-4 rounded-2xl mb-4 border border-slate-100 text-left text-left text-left">
-                                <p class="text-[10px] font-bold text-gold uppercase mb-1 text-left">Local de Estadia</p>
-                                <p class="text-[14px] font-bold text-slate-800 uppercase text-left"><i class="fas fa-hotel mr-2 text-gold"></i>${v.stay}</p>
+                        <div class="bg-white p-6 rounded-[32px] border border-slate-100 mb-5 shadow-sm border-l-[10px] border-gold text-left text-left text-left">
+                            <p class="text-[10px] font-extrabold text-navy/40 uppercase tracking-widest mb-1 text-left text-left text-left text-left">${label}</p>
+                            <p class="text-base font-extrabold text-navy uppercase mb-5 text-left text-left text-left text-left">${v.auth}</p>
+                            <div class="bg-slate-50 p-4 rounded-2xl mb-4 border border-slate-100 text-left text-left text-left text-left">
+                                <p class="text-[10px] font-bold text-gold uppercase mb-1 text-left text-left">Local de Estadia</p>
+                                <p class="text-[14px] font-bold text-slate-800 uppercase text-left text-left"><i class="fas fa-hotel mr-2 text-gold text-left"></i>${v.stay}</p>
                             </div>
-                            <div class="bg-navy/5 p-4 rounded-2xl mb-6 border border-navy/10 text-left text-left text-left">
-                                <p class="text-[10px] font-bold text-navy/40 uppercase mb-2 text-left">Motorista e Viatura</p>
-                                <p class="text-lg font-bold text-slate-800 uppercase underline decoration-gold/50 underline-offset-8 text-left text-left text-left">${v.mot}</p>
-                                <div class="mt-4">
-                                    <p class="text-[13px] text-navy font-bold flex items-center gap-3"><i class="fas fa-car-side"></i> ${v.model}</p>
-                                    <p class="text-[13px] text-navy font-bold mt-1 pl-6.5 uppercase">Placa: ${v.plate}</p>
+                            <div class="bg-navy/5 p-4 rounded-2xl mb-6 border border-navy/10 text-left text-left text-left text-left">
+                                <p class="text-[10px] font-bold text-navy/40 uppercase mb-2 text-left text-left">Motorista e Viatura</p>
+                                <p class="text-lg font-bold text-slate-800 uppercase underline decoration-gold/50 underline-offset-8 text-left text-left text-left text-left">${v.mot}</p>
+                                <div class="mt-4 text-left">
+                                    <p class="text-[13px] text-navy font-bold flex items-center gap-3 text-left"><i class="fas fa-car-side"></i> ${v.model}</p>
+                                    <p class="text-[13px] text-navy font-bold mt-1 pl-6.5 uppercase text-left">Placa: ${v.plate}</p>
                                 </div>
                             </div>
                             <div class="flex gap-3"><a href="tel:${v.tel.replace(/\D/g,'')}" class="touch-target flex-1 bg-navy text-white text-xs font-bold rounded-2xl shadow-sm"><i class="fas fa-phone-alt mr-2 text-gold"></i> Chamar Motorista</a></div>
@@ -428,7 +458,7 @@
                 document.getElementById('modal-title').innerText = "Logística de Viaturas";
                 logistics.vtrs.forEach(v => {
                     const label = v.auth.toUpperCase().includes("COMITIVA") ? "Apoio à" : "Apoio ao";
-                    content += `<div class="bg-white p-6 rounded-[32px] border border-slate-100 mb-5 shadow-sm border-l-[10px] border-gold text-left text-left text-left"><p class="text-[10px] font-extrabold text-navy/40 uppercase tracking-widest mb-1 text-left text-left">${label}</p><p class="text-base font-extrabold text-navy uppercase mb-5 text-left text-left">${v.auth}</p><div class="bg-slate-50 p-5 rounded-[24px] mb-6 border border-slate-100 text-left text-left text-left"><p class="text-[10px] font-bold text-slate-400 uppercase mb-2 text-left text-left">Motorista Responsável</p><p class="text-lg font-bold text-slate-800 uppercase underline decoration-gold/50 underline-offset-8 text-left text-left text-left text-left">${v.mot}</p><div class="mt-4"><p class="text-[13px] text-navy font-bold flex items-center gap-3"><i class="fas fa-car-side"></i> ${v.model}</p><p class="text-[13px] text-navy font-bold mt-1 pl-6.5 uppercase">Placa: ${v.plate}</p></div></div><div class="flex gap-3"><a href="tel:${v.tel.replace(/\D/g,'')}" class="touch-target flex-1 bg-navy text-white text-xs font-bold rounded-2xl shadow-sm"><i class="fas fa-phone-alt mr-2 text-gold"></i> Ligar</a><a href="https://wa.me/55${v.tel.replace(/\D/g,'')}" target="_blank" class="touch-target flex-1 bg-emerald-600 text-white text-xs font-bold rounded-2xl shadow-md"><i class="fab fa-whatsapp mr-2 text-gold"></i> WhatsApp</a></div></div>`;
+                    content += `<div class="bg-white p-6 rounded-[32px] border border-slate-100 mb-5 shadow-sm border-l-[10px] border-gold text-left text-left text-left text-left"><p class="text-[10px] font-extrabold text-navy/40 uppercase tracking-widest mb-1 text-left text-left text-left">${label}</p><p class="text-base font-extrabold text-navy uppercase mb-5 text-left text-left text-left">${v.auth}</p><div class="bg-slate-50 p-5 rounded-[24px] mb-6 border border-slate-100 text-left text-left text-left text-left"><p class="text-[10px] font-bold text-slate-400 uppercase mb-2 text-left text-left text-left">Motorista Responsável</p><p class="text-lg font-bold text-slate-800 uppercase underline decoration-gold/50 underline-offset-8 text-left text-left text-left text-left text-left">${v.mot}</p><div class="mt-4 text-left"><p class="text-[13px] text-navy font-bold flex items-center gap-3 text-left"><i class="fas fa-car-side"></i> ${v.model}</p><p class="text-[13px] text-navy font-bold mt-1 pl-6.5 uppercase text-left">Placa: ${v.plate}</p></div></div><div class="flex gap-3"><a href="tel:${v.tel.replace(/\D/g,'')}" class="touch-target flex-1 bg-navy text-white text-xs font-bold rounded-2xl shadow-sm"><i class="fas fa-phone-alt mr-2 text-gold"></i> Ligar</a><a href="https://wa.me/55${v.tel.replace(/\D/g,'')}" target="_blank" class="touch-target flex-1 bg-emerald-600 text-white text-xs font-bold rounded-2xl shadow-md"><i class="fab fa-whatsapp mr-2 text-gold"></i> WhatsApp</a></div></div>`;
                 });
             }
             body.innerHTML = content;
@@ -439,13 +469,13 @@
         function closeModal() { const m = document.getElementById('info-modal'); m.classList.remove('open'); setTimeout(() => m.classList.add('hidden'), 300); }
 
         function updateIndicator() {
-            // Limpar indicadores anteriores
+            // Limpar indicadores antigos
             document.querySelectorAll('.current-time-indicator').forEach(l => l.remove());
             
             const activeTab = document.querySelector('.tab-content.active');
             if(!activeTab) return;
 
-            // Verificar se a aba ativa corresponde ao dia de hoje
+            // Verificar se a aba corresponde ao dia de hoje
             const activeIdx = activeTab.id.split('-')[1];
             const scheduleDate = schedule[activeIdx].date;
             
@@ -455,7 +485,6 @@
             const day = String(now.getDate()).padStart(2, '0');
             const todayStr = `${year}-${month}-${day}`;
 
-            // Só processa se a aba selecionada for a de hoje
             if (scheduleDate !== todayStr) return;
 
             const timeNowMinutes = now.getHours() * 60 + now.getMinutes();
@@ -479,7 +508,6 @@
                 const cardM = parseInt(match[2] || 0);
                 const cardMinutes = cardH * 60 + cardM;
 
-                // Se o card for futuro, inserimos o marcador antes dele
                 if (cardMinutes > timeNowMinutes) {
                     cards[i].insertAdjacentHTML('beforebegin', timelineHTML);
                     inserted = true;
@@ -487,7 +515,6 @@
                 }
             }
 
-            // Se for após o último card do dia
             if (!inserted && cards.length > 0) {
                 cards[cards.length - 1].insertAdjacentHTML('afterend', timelineHTML);
             }
